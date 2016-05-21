@@ -7,9 +7,9 @@
 
 
 <title>
-
+  
     Myths
-
+  
 </title>
 
 <meta name="description">
@@ -40,9 +40,9 @@
 
 </head>
 <body
-
+  
     class="monochrome"
-
+  
   >
   <div class="mobile-header">
   <button class="sidebar-toggle" type="button">
@@ -57,101 +57,101 @@
     <div class="sidebar">
   <div class="header">
     <h1 class="title"><a href="/">Myths</a></h1>
-
+    
       <p class="subtitle">
         一切梦想都需要你的努力
       </p>
-
+    
     <div class="info">
       <div class="content">
-
-
+        
+        
           <div class="author">Myths</div>
-
+        
       </div>
-
+      
         <div class="avatar">
-
-            <a href="/"><img src="http://img1.imgtn.bdimg.com/it/u=2156040054,604730497&amp;fm=21&amp;gp=0.jpg"></a>
-
+          
+            <a href="/"><img src="/logo.jpg"></a>
+          
         </div>
-
+      
     </div>
   </div>
   <div class="body">
-
-
+    
+      
         <ul class="nav">
-
-
+          
+            
               <li class="category-list-container">
                 <a href="javascript:;">分类</a>
-
+                
               </li>
-
-
-
+            
+          
+            
               <li class="tag-list-container">
                 <a href="javascript:;">标签</a>
                 <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">1</span></li></ul>
               </li>
-
-
-
+            
+          
+            
               <li class="archive-list-container">
                 <a href="javascript:;">归档</a>
                 <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">1</span></li></ul>
               </li>
-
-
+            
+          
         </ul>
-
+      
         <ul class="nav">
-
-
+          
+            
               <li>
                 <a href="/" title="Homepage">Homepage</a>
               </li>
-
-
-
+            
+          
+            
               <li>
                 <a href="/archives" title="By Year">By Year</a>
               </li>
-
-
+            
+          
         </ul>
-
+      
         <ul class="nav">
-
-
+          
+            
               <li>
                 <a href="https://github.com/coldhurt" title="Github" target="_blank" rel="external">Github</a>
               </li>
-
-
-
+            
+          
+            
               <li>
                 <a href="/atom.xml" title="RSS">RSS</a>
               </li>
-
-
+            
+          
         </ul>
-
-
+      
+    
   </div>
 </div>
 
     <div class="main-content">
-
+      
         <div style="max-width: 1000px">
+      
+          
 
-
-
-
-
+  
+  
     <div class="post-list">
-
+  
 
     <div class="post-list-item article">
       <h3 class="article-header">
@@ -160,16 +160,16 @@
 </a>
 
       </h3>
-
+      
 
       <div class="article-info">
         <a href="/2016/05/06/postMessage-and-iframe/"><span class="article-date">
   2016-05-06
 </span>
 </a>
+        
 
-
-
+        
 	<span class="article-tag tagcloud">
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
 	</span>
@@ -177,19 +177,19 @@
 
       </div>
       <div class="article-entry">
-
+        
           <p>在HTML5中新增了postMessage方法，postMessage可以实现跨文档消息传输（Cross Document Messaging）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">postMessage(data,origin)</span><br><span class="line"></span><br><span class="line">data：要传的数据</span><br><span class="line">origin： 字符串参数，指明目标窗口的源，协议+主机+端口号。如果为*则是所有的窗口，如果要指定和当前窗口同源的话设置为&quot;/&quot;。</span><br></pre></td></tr></table></figure></p>
 <p>子页面传给父页面<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//子页面</span></span><br><span class="line"><span class="built_in">window</span>.parent.postMessage(data,<span class="string">'*'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//父页面</span></span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'message'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">          <span class="built_in">console</span>.log(e.data);</span><br><span class="line">      &#125;,<span class="literal">false</span>);</span><br></pre></td></tr></table></figure></p>
 <p>父页面传给子页面</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//父页面</span></span><br><span class="line"><span class="built_in">window</span>.frames[<span class="number">0</span>].postMessage(data,<span class="string">'http://test.com:port'</span>);<span class="comment">//第二个参数为子页面地址</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//子页面</span></span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'message'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">              <span class="keyword">if</span>(e.source != <span class="built_in">window</span>.parent) <span class="keyword">return</span>;</span><br><span class="line">              <span class="built_in">console</span>.log(e.data);</span><br><span class="line">          &#125;,<span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
 
-
+        
       </div>
     </div>
 
-
+  
     </div>
-
+  
 
 
 
@@ -197,14 +197,14 @@
 
 
           <div class="main-footer">
-
+  
     © 2016 Myths - Powered by <a href="http://hexo.io" target="_blank">Hexo</a> - Theme <a href="https://github.com/denjones/hexo-theme-chan" target="_blank">Chan</a>
-
+  
 </div>
 
-
+      
         </div>
-
+      
     </div>
   </div>
   <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
