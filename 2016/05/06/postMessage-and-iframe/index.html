@@ -141,8 +141,6 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//父页面</span></span><br><span class="line"><span class="built_in">window</span>.frames[<span class="number">0</span>].postMessage(data,<span class="string">'http://test.com:port'</span>);<span class="comment">//第二个参数为子页面地址</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//子页面</span></span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'message'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">              <span class="keyword">if</span>(e.source != <span class="built_in">window</span>.parent) <span class="keyword">return</span>;</span><br><span class="line">              <span class="built_in">console</span>.log(e.data);</span><br><span class="line">          &#125;,<span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
 
   </div>
-  <!-- Comments -->
-  
 </article>
 
 
