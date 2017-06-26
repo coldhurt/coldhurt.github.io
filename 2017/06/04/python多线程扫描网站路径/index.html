@@ -1,12 +1,101 @@
-<!DOCTYPE html>
-<html lang=zh>
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
-    <!-- so meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="本文代码参考自《Black Hat Python: Python Programming for Hackers and Pentesters》
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="security,python," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Myths" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/logo.jpg?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="本文代码参考自《Black Hat Python: Python Programming for Hackers and Pentesters》
 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python多线程扫描网站路径">
@@ -19,227 +108,544 @@
 <meta name="twitter:title" content="python多线程扫描网站路径">
 <meta name="twitter:description" content="本文代码参考自《Black Hat Python: Python Programming for Hackers and Pentesters》
 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768">
-    
-    
-        
-          
-              <link rel="shortcut icon" href="/images/logo.jpg">
-          
-        
-        
-          
-            <link rel="icon" type="image/png" href="/images/logo.jpg" sizes="192x192">
-          
-        
-        
-          
-            <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.jpg">
-          
-        
-    
-    <!-- title -->
-    <title>python多线程扫描网站路径</title>
-    <!-- styles -->
-    <link rel="stylesheet" href="/css/style.css">
-    <!-- rss -->
-    
-    
-</head>
-
-<body>
-    
-      <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-          <li><a href="/">首页</a></li>
-         
-          <li><a href="/about/">关于</a></li>
-         
-          <li><a href="/archives/">归档</a></li>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="/2017/06/10/metasploit-and-postgresql-config/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
-        
-        
-        <li><a class="icon" href="/2017/01/19/解析漏洞/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
-        <!--<li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>-->
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <!--<span id="i-share" class="info" style="display:none;">Share post</span>-->
-    </span>
-    <br/>
-    <!--<div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://myt0.com/2017/06/04/python多线程扫描网站路径/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://myt0.com/2017/06/04/python多线程扫描网站路径/&text=python多线程扫描网站路径"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://myt0.com/2017/06/04/python多线程扫描网站路径/&title=python多线程扫描网站路径"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://myt0.com/2017/06/04/python多线程扫描网站路径/&is_video=false&description=python多线程扫描网站路径"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=python多线程扫描网站路径&body=Check out this article: http://myt0.com/2017/06/04/python多线程扫描网站路径/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://myt0.com/2017/06/04/python多线程扫描网站路径/&title=python多线程扫描网站路径"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://myt0.com/2017/06/04/python多线程扫描网站路径/&title=python多线程扫描网站路径"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://myt0.com/2017/06/04/python多线程扫描网站路径/&title=python多线程扫描网站路径"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://myt0.com/2017/06/04/python多线程扫描网站路径/&title=python多线程扫描网站路径"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://myt0.com/2017/06/04/python多线程扫描网站路径/&name=python多线程扫描网站路径&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>-->
-    <div id="toc">
-      
-    </div>
-  </span>
-</div>
-
-    
-    <div class="content index width mx-auto px2 my4">
-        
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <header>
-    
-    <h1 class="posttitle" itemprop="name headline">
-        python多线程扫描网站路径
-    </h1>
 
 
 
-    <div class="meta">
-      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <span itemprop="name">Myths</span>
-      </span>
-      
-    <div class="postdate">
-        <time datetime="2017-06-04T14:19:52.000Z" itemprop="datePublished">2017-06-04</time>
-    </div>
-
-
-      
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/python/">python</a>, <a class="tag-link" href="/tags/security/">security</a>
-    </div>
-
-
-    </div>
-  </header>
-  
-
-  <div class="content" itemprop="articleBody">
-    <p>本文代码参考自《Black Hat Python: Python Programming for Hackers and Pentesters》</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment">#coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> Queue</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">import</span> argparse</span><br><span class="line"></span><br><span class="line">resume = <span class="keyword">None</span></span><br><span class="line">mutex = threading.Lock()</span><br><span class="line">user_agent = <span class="string">'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.96 Safari/537.36'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build_wordlist</span><span class="params">(wordlist)</span>:</span></span><br><span class="line">    <span class="string">'''Create Queue of file wordlist</span><br><span class="line"></span><br><span class="line">    Args:</span><br><span class="line">        wordlist: file path of the wordlist</span><br><span class="line">    '''</span></span><br><span class="line">    fd = open(wordlist, <span class="string">'rb'</span>)</span><br><span class="line">    raw_words = fd.readlines()</span><br><span class="line">    fd.close()</span><br><span class="line"></span><br><span class="line">    found_resume = <span class="keyword">False</span></span><br><span class="line">    words = Queue.Queue()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> word <span class="keyword">in</span> raw_words:</span><br><span class="line">        word = word.rstrip()</span><br><span class="line">        <span class="keyword">if</span> resume <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">if</span> found_resume:</span><br><span class="line">                words.put(word)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> word == resume:</span><br><span class="line">                    found_resume = <span class="keyword">True</span></span><br><span class="line">                    print(<span class="string">'Resuming wordlist from : %s'</span> % resume)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            words.put(word)</span><br><span class="line">    <span class="keyword">return</span> words</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dir_bruster</span><span class="params">(target, word_queue, extensions=None)</span>:</span></span><br><span class="line">    <span class="string">'''Scan target use wordlist queue and extendsions</span><br><span class="line"></span><br><span class="line">    Args:</span><br><span class="line">        target: target url</span><br><span class="line">        word_queue: a Queue obj created by build_wordlist function</span><br><span class="line">        extensions: some extension, a list or tuple</span><br><span class="line">    '''</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> word_queue.empty():</span><br><span class="line">        path = word_queue.get()</span><br><span class="line">        paths = []</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="string">'.'</span> <span class="keyword">not</span> <span class="keyword">in</span> path:</span><br><span class="line">            paths.append(<span class="string">'/%s/'</span> % path)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            paths.append(<span class="string">'/%s'</span> % path)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> extensions:</span><br><span class="line">            <span class="keyword">for</span> ext <span class="keyword">in</span> extensions:</span><br><span class="line">                <span class="keyword">if</span> ext.startswith(<span class="string">'.'</span>):</span><br><span class="line">                    paths.append(<span class="string">'/%s%s'</span> % (path, ext))</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    paths.append(<span class="string">'/%s.%s'</span> % (path, ext))</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> brust <span class="keyword">in</span> paths:</span><br><span class="line">            url = <span class="string">'%s%s'</span> % (target, urllib.quote(brust)) <span class="comment">#urllib.quote can encode request path to support Chinese or other language</span></span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                headers = &#123;&#125;</span><br><span class="line">                headers[<span class="string">'user-agent'</span>] = user_agent</span><br><span class="line">                r = urllib2.Request(url, headers=headers) <span class="comment"># create request through url and headers</span></span><br><span class="line">                res = urllib2.urlopen(r) <span class="comment">#urlopen send request</span></span><br><span class="line">                <span class="keyword">if</span> len(res.read()) <span class="keyword">and</span> mutex.acquire(<span class="number">1</span>):</span><br><span class="line">                    print(<span class="string">'[%d] =&gt; %s'</span> % (res.code, url))</span><br><span class="line">                    mutex.release()</span><br><span class="line">            <span class="keyword">except</span> urllib2.HTTPError <span class="keyword">as</span> e:</span><br><span class="line">                <span class="keyword">if</span> hasattr(e, <span class="string">'code'</span>) <span class="keyword">and</span> e.code != <span class="number">404</span>:</span><br><span class="line">                    print(<span class="string">'!!! %d =&gt; %s'</span> % (e.code, url))</span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    parse = argparse.ArgumentParser(description=<span class="string">'A dir scanner'</span>)</span><br><span class="line">    parse.add_argument(<span class="string">'url'</span>, action=<span class="string">'store'</span>, help=<span class="string">'target url'</span>)</span><br><span class="line">    parse.add_argument(<span class="string">'-w'</span>, required=<span class="keyword">True</span>, dest=<span class="string">'wordlist'</span>, action=<span class="string">'store'</span>, help=<span class="string">'wordlist path'</span>)</span><br><span class="line">    parse.add_argument(<span class="string">'-t'</span>, dest=<span class="string">'threads'</span>, action=<span class="string">'store'</span>, help=<span class="string">'thread count'</span>, type=int, default=<span class="number">10</span>)</span><br><span class="line">    parse.add_argument(<span class="string">'-e'</span>, dest=<span class="string">'extensions'</span>, action=<span class="string">'store'</span>, help=<span class="string">'extensions, eg: "php,asp"'</span>, default=<span class="string">''</span>)</span><br><span class="line">    args = vars(parse.parse_args())</span><br><span class="line">    <span class="keyword">global</span> target,wordlist,threads,ext</span><br><span class="line">    target, wordlist, threads, ext = args[<span class="string">'url'</span>], args[<span class="string">'wordlist'</span>], args[<span class="string">'threads'</span>], \</span><br><span class="line">    args[<span class="string">'extensions'</span>].split(<span class="string">','</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> target.startswith(<span class="string">"http://"</span>):</span><br><span class="line">        target = <span class="string">'http://%s'</span> % target</span><br><span class="line">    <span class="keyword">if</span> os.path.exists(wordlist):</span><br><span class="line">        word_queue = build_wordlist(wordlist)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(threads):</span><br><span class="line">            t = threading.Thread(target=dir_bruster, args=(target, word_queue, ext))</span><br><span class="line">            t.start()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-  </div>
-</article>
-
-<div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
-<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
-<script>
-var cloudTieConfig = {
-  url: document.location.href, 
-  sourceId: "",
-  productKey: "825d464b54824262b31bfe5fe56cb190",
-  target: "cloud-tie-wrapper"
-};
-var yunManualLoad = true;
-Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
 </script>
 
 
 
-    </div>
+  <link rel="canonical" href="http://myt0.com/2017/06/04/python多线程扫描网站路径/"/>
+
+
+
+
+
+  <title>python多线程扫描网站路径 | Myths</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
     
-      <div id="footer-post-container">
-  <div id="footer-post">
+  
 
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/">首页</a></li>
-         
-          <li><a href="/about/">关于</a></li>
-         
-          <li><a href="/archives/">归档</a></li>
-        
-      </ul>
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Myths</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
     </div>
-
-    <div id="toc-footer" style="display: none">
       
-    </div>
+        <p class="site-subtitle">Myt0's blog</p>
+      
+  </div>
 
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://myt0.com/2017/06/04/python多线程扫描网站路径/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://myt0.com/2017/06/04/python多线程扫描网站路径/&text=python多线程扫描网站路径"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://myt0.com/2017/06/04/python多线程扫描网站路径/&title=python多线程扫描网站路径"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://myt0.com/2017/06/04/python多线程扫描网站路径/&is_video=false&description=python多线程扫描网站路径"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=python多线程扫描网站路径&body=Check out this article: http://myt0.com/2017/06/04/python多线程扫描网站路径/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://myt0.com/2017/06/04/python多线程扫描网站路径/&title=python多线程扫描网站路径"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://myt0.com/2017/06/04/python多线程扫描网站路径/&title=python多线程扫描网站路径"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://myt0.com/2017/06/04/python多线程扫描网站路径/&title=python多线程扫描网站路径"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://myt0.com/2017/06/04/python多线程扫描网站路径/&title=python多线程扫描网站路径"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://myt0.com/2017/06/04/python多线程扫描网站路径/&name=python多线程扫描网站路径&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-      <ul>
-        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
-        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
-        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
-        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
-      </ul>
-    </div>
-
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
   </div>
 </div>
 
-    
-    <footer id="footer">
-  <div class="footer-left">
-    Copyright &copy; 2017 Myths
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-          <li><a href="/">首页</a></li>
-         
-          <li><a href="/about/">关于</a></li>
-         
-          <li><a href="/archives/">归档</a></li>
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
         
-      </ul>
-    </nav>
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://myt0.com/2017/06/04/python多线程扫描网站路径/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Myths">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Myths">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python多线程扫描网站路径</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-04T22:19:52+08:00">
+                2017-06-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/06/04/python多线程扫描网站路径/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文代码参考自《Black Hat Python: Python Programming for Hackers and Pentesters》</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment">#coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> Queue</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">import</span> argparse</span><br><span class="line"></span><br><span class="line">resume = <span class="keyword">None</span></span><br><span class="line">mutex = threading.Lock()</span><br><span class="line">user_agent = <span class="string">'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.96 Safari/537.36'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build_wordlist</span><span class="params">(wordlist)</span>:</span></span><br><span class="line">    <span class="string">'''Create Queue of file wordlist</span><br><span class="line"></span><br><span class="line">    Args:</span><br><span class="line">        wordlist: file path of the wordlist</span><br><span class="line">    '''</span></span><br><span class="line">    fd = open(wordlist, <span class="string">'rb'</span>)</span><br><span class="line">    raw_words = fd.readlines()</span><br><span class="line">    fd.close()</span><br><span class="line"></span><br><span class="line">    found_resume = <span class="keyword">False</span></span><br><span class="line">    words = Queue.Queue()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> word <span class="keyword">in</span> raw_words:</span><br><span class="line">        word = word.rstrip()</span><br><span class="line">        <span class="keyword">if</span> resume <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">if</span> found_resume:</span><br><span class="line">                words.put(word)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> word == resume:</span><br><span class="line">                    found_resume = <span class="keyword">True</span></span><br><span class="line">                    print(<span class="string">'Resuming wordlist from : %s'</span> % resume)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            words.put(word)</span><br><span class="line">    <span class="keyword">return</span> words</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dir_bruster</span><span class="params">(target, word_queue, extensions=None)</span>:</span></span><br><span class="line">    <span class="string">'''Scan target use wordlist queue and extendsions</span><br><span class="line"></span><br><span class="line">    Args:</span><br><span class="line">        target: target url</span><br><span class="line">        word_queue: a Queue obj created by build_wordlist function</span><br><span class="line">        extensions: some extension, a list or tuple</span><br><span class="line">    '''</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> word_queue.empty():</span><br><span class="line">        path = word_queue.get()</span><br><span class="line">        paths = []</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="string">'.'</span> <span class="keyword">not</span> <span class="keyword">in</span> path:</span><br><span class="line">            paths.append(<span class="string">'/%s/'</span> % path)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            paths.append(<span class="string">'/%s'</span> % path)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> extensions:</span><br><span class="line">            <span class="keyword">for</span> ext <span class="keyword">in</span> extensions:</span><br><span class="line">                <span class="keyword">if</span> ext.startswith(<span class="string">'.'</span>):</span><br><span class="line">                    paths.append(<span class="string">'/%s%s'</span> % (path, ext))</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    paths.append(<span class="string">'/%s.%s'</span> % (path, ext))</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> brust <span class="keyword">in</span> paths:</span><br><span class="line">            url = <span class="string">'%s%s'</span> % (target, urllib.quote(brust)) <span class="comment">#urllib.quote can encode request path to support Chinese or other language</span></span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                headers = &#123;&#125;</span><br><span class="line">                headers[<span class="string">'user-agent'</span>] = user_agent</span><br><span class="line">                r = urllib2.Request(url, headers=headers) <span class="comment"># create request through url and headers</span></span><br><span class="line">                res = urllib2.urlopen(r) <span class="comment">#urlopen send request</span></span><br><span class="line">                <span class="keyword">if</span> len(res.read()) <span class="keyword">and</span> mutex.acquire(<span class="number">1</span>):</span><br><span class="line">                    print(<span class="string">'[%d] =&gt; %s'</span> % (res.code, url))</span><br><span class="line">                    mutex.release()</span><br><span class="line">            <span class="keyword">except</span> urllib2.HTTPError <span class="keyword">as</span> e:</span><br><span class="line">                <span class="keyword">if</span> hasattr(e, <span class="string">'code'</span>) <span class="keyword">and</span> e.code != <span class="number">404</span>:</span><br><span class="line">                    print(<span class="string">'!!! %d =&gt; %s'</span> % (e.code, url))</span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    parse = argparse.ArgumentParser(description=<span class="string">'A dir scanner'</span>)</span><br><span class="line">    parse.add_argument(<span class="string">'url'</span>, action=<span class="string">'store'</span>, help=<span class="string">'target url'</span>)</span><br><span class="line">    parse.add_argument(<span class="string">'-w'</span>, required=<span class="keyword">True</span>, dest=<span class="string">'wordlist'</span>, action=<span class="string">'store'</span>, help=<span class="string">'wordlist path'</span>)</span><br><span class="line">    parse.add_argument(<span class="string">'-t'</span>, dest=<span class="string">'threads'</span>, action=<span class="string">'store'</span>, help=<span class="string">'thread count'</span>, type=int, default=<span class="number">10</span>)</span><br><span class="line">    parse.add_argument(<span class="string">'-e'</span>, dest=<span class="string">'extensions'</span>, action=<span class="string">'store'</span>, help=<span class="string">'extensions, eg: "php,asp"'</span>, default=<span class="string">''</span>)</span><br><span class="line">    args = vars(parse.parse_args())</span><br><span class="line">    <span class="keyword">global</span> target,wordlist,threads,ext</span><br><span class="line">    target, wordlist, threads, ext = args[<span class="string">'url'</span>], args[<span class="string">'wordlist'</span>], args[<span class="string">'threads'</span>], \</span><br><span class="line">    args[<span class="string">'extensions'</span>].split(<span class="string">','</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> target.startswith(<span class="string">"http://"</span>):</span><br><span class="line">        target = <span class="string">'http://%s'</span> % target</span><br><span class="line">    <span class="keyword">if</span> os.path.exists(wordlist):</span><br><span class="line">        word_queue = build_wordlist(wordlist)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(threads):</span><br><span class="line">            t = threading.Thread(target=dir_bruster, args=(target, word_queue, ext))</span><br><span class="line">            t.start()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/security/" rel="tag"># security</a>
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/19/解析漏洞/" rel="next" title="解析漏洞">
+                <i class="fa fa-chevron-left"></i> 解析漏洞
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/10/metasploit-and-postgresql-config/" rel="prev" title="metasploit配置postgresql">
+                metasploit配置postgresql <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
-</footer>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/logo.jpg"
+               alt="Myths" />
+          <p class="site-author-name" itemprop="name">Myths</p>
+           
+              <p class="site-description motion-element" itemprop="description">技术分享，探索未来</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Myths</span>
+</div>
+
+
+<!--<div class="powered-by">
+  Copyright © 2017 Myths
+</div>-->
+
+<!--<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>-->
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
 
 </body>
 </html>
-<!-- styles -->
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
-<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
-
-
-<!-- jquery -->
-<script src="/lib/jquery/jquery.min.js"></script>
-<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
-<script src="/js/main.js"></script>
-<!-- Google Analytics -->
-
-<!-- Disqus Comments -->
-
-
