@@ -108,36 +108,37 @@
     <link href="http://myt0.com/2018/06/27/web%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
     <id>http://myt0.com/2018/06/27/web性能优化/</id>
     <published>2018-06-27T13:00:00.000Z</published>
-    <updated>2018-06-27T14:13:21.681Z</updated>
+    <updated>2018-07-17T15:13:56.127Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="减少DNS解析，减少不同域名请求数量"><a href="#减少DNS解析，减少不同域名请求数量" class="headerlink" title="减少DNS解析，减少不同域名请求数量"></a>减少DNS解析，减少不同域名请求数量</h3><h3 id="减少HTTP请求"><a href="#减少HTTP请求" class="headerlink" title="减少HTTP请求"></a>减少HTTP请求</h3><h3 id="使用浏览器缓存，通过设置HTTP头的cache-control和expires属性，设定缓存时间"><a href="#使用浏览器缓存，通过设置HTTP头的cache-control和expires属性，设定缓存时间" class="headerlink" title="使用浏览器缓存，通过设置HTTP头的cache-control和expires属性，设定缓存时间"></a>使用浏览器缓存，通过设置HTTP头的cache-control和expires属性，设定缓存时间</h3><h3 id="服务端启用GZIP压缩，合并HTML、CSS、Javascript文件"><a href="#服务端启用GZIP压缩，合并HTML、CSS、Javascript文件" class="headerlink" title="服务端启用GZIP压缩，合并HTML、CSS、Javascript文件"></a>服务端启用GZIP压缩，合并HTML、CSS、Javascript文件</h3><h3 id="CSS-Sprites，合并图片，这也可以减少HTTP请求"><a href="#CSS-Sprites，合并图片，这也可以减少HTTP请求" class="headerlink" title="CSS Sprites，合并图片，这也可以减少HTTP请求"></a>CSS Sprites，合并图片，这也可以减少HTTP请求</h3><h3 id="LazyLoad-Images只加载首屏图片，滚动之后再加载需要看到的图片"><a href="#LazyLoad-Images只加载首屏图片，滚动之后再加载需要看到的图片" class="headerlink" title="LazyLoad Images只加载首屏图片，滚动之后再加载需要看到的图片"></a>LazyLoad Images只加载首屏图片，滚动之后再加载需要看到的图片</h3><h3 id="CSS放header，JS放底部，防止JS阻塞"><a href="#CSS放header，JS放底部，防止JS阻塞" class="headerlink" title="CSS放header，JS放底部，防止JS阻塞"></a>CSS放header，JS放底部，防止JS阻塞</h3><h3 id="异步请求数据"><a href="#异步请求数据" class="headerlink" title="异步请求数据"></a>异步请求数据</h3><h3 id="减少Cookie传输"><a href="#减少Cookie传输" class="headerlink" title="减少Cookie传输"></a>减少Cookie传输</h3><h3 id="JS代码优化"><a href="#JS代码优化" class="headerlink" title="JS代码优化"></a>JS代码优化</h3><ul>
-<li>减少操作DOM次数</li>
-<li>慎用with</li>
-<li>避免使用eval和Function</li>
+    <content type="html"><![CDATA[<h3 id="减少-DNS-解析，减少不同域名请求数量"><a href="#减少-DNS-解析，减少不同域名请求数量" class="headerlink" title="减少 DNS 解析，减少不同域名请求数量"></a>减少 DNS 解析，减少不同域名请求数量</h3><h3 id="减少-HTTP-请求"><a href="#减少-HTTP-请求" class="headerlink" title="减少 HTTP 请求"></a>减少 HTTP 请求</h3><h3 id="使用浏览器缓存，通过设置-HTTP-头的-cache-control-和-expires-属性，设定缓存时间"><a href="#使用浏览器缓存，通过设置-HTTP-头的-cache-control-和-expires-属性，设定缓存时间" class="headerlink" title="使用浏览器缓存，通过设置 HTTP 头的 cache-control 和 expires 属性，设定缓存时间"></a>使用浏览器缓存，通过设置 HTTP 头的 cache-control 和 expires 属性，设定缓存时间</h3><h3 id="服务端启用-GZIP-压缩，合并-HTML、CSS、Javascript-文件"><a href="#服务端启用-GZIP-压缩，合并-HTML、CSS、Javascript-文件" class="headerlink" title="服务端启用 GZIP 压缩，合并 HTML、CSS、Javascript 文件"></a>服务端启用 GZIP 压缩，合并 HTML、CSS、Javascript 文件</h3><h3 id="CSS-Sprites，合并图片，这也可以减少-HTTP-请求"><a href="#CSS-Sprites，合并图片，这也可以减少-HTTP-请求" class="headerlink" title="CSS Sprites，合并图片，这也可以减少 HTTP 请求"></a>CSS Sprites，合并图片，这也可以减少 HTTP 请求</h3><h3 id="LazyLoad-Images-只加载首屏图片，滚动之后再加载需要看到的图片"><a href="#LazyLoad-Images-只加载首屏图片，滚动之后再加载需要看到的图片" class="headerlink" title="LazyLoad Images 只加载首屏图片，滚动之后再加载需要看到的图片"></a>LazyLoad Images 只加载首屏图片，滚动之后再加载需要看到的图片</h3><h3 id="CSS-放-header，JS-放底部，防止-JS-阻塞"><a href="#CSS-放-header，JS-放底部，防止-JS-阻塞" class="headerlink" title="CSS 放 header，JS 放底部，防止 JS 阻塞"></a>CSS 放 header，JS 放底部，防止 JS 阻塞</h3><h3 id="异步请求数据"><a href="#异步请求数据" class="headerlink" title="异步请求数据"></a>异步请求数据</h3><h3 id="减少-Cookie-传输"><a href="#减少-Cookie-传输" class="headerlink" title="减少 Cookie 传输"></a>减少 Cookie 传输</h3><h3 id="JS-代码优化"><a href="#JS-代码优化" class="headerlink" title="JS 代码优化"></a>JS 代码优化</h3><ul>
+<li>减少操作 DOM 次数</li>
+<li>慎用 with</li>
+<li>避免使用 eval 和 Function</li>
 <li>减少作用域查找</li>
-<li>JS对直接量和局部变量查找最快，如果对JS对象属性查找超过一次，设置局部变量</li>
-<li>字符串拼接，+效率低，如果字符串较多，放到数组，使用join拼接</li>
+<li>JS 对直接量和局部变量查找最快，如果对 JS 对象属性查找超过一次，设置局部变量</li>
+<li>字符串拼接，+效率低，如果字符串较多，放到数组，使用 join 拼接</li>
 </ul>
-<h3 id="CSS编写优化"><a href="#CSS编写优化" class="headerlink" title="CSS编写优化"></a>CSS编写优化</h3><ul>
-<li>不适用import</li>
+<h3 id="CSS-编写优化"><a href="#CSS-编写优化" class="headerlink" title="CSS 编写优化"></a>CSS 编写优化</h3><ul>
+<li>不使用 import</li>
 <li>合理使用继承</li>
-<li>抽离，拆分，不加载所有CSS，只在需要的时候加载</li>
-<li>减少reflow/repaint</li>
+<li>抽离，拆分，不加载所有 CSS，只在需要的时候加载</li>
+<li>减少 reflow/repaint</li>
 <li>指定图像尺寸</li>
 <li>精简页面样式</li>
 <li>慎重使用高性能属性，如浮动，定位</li>
-<li>不要使用CSS表达式</li>
-<li>CSS选择器查找为从右向左，避免使用通配选择器</li>
+<li>不要使用 CSS 表达式</li>
+<li>CSS 选择器查找为从右向左，避免使用通配选择器</li>
 <li>避免单规则属性选择器</li>
 <li>避免类正则选择器</li>
 </ul>
-<h3 id="CDN加速"><a href="#CDN加速" class="headerlink" title="CDN加速"></a>CDN加速</h3><h3 id="反向代理，负载均衡"><a href="#反向代理，负载均衡" class="headerlink" title="反向代理，负载均衡"></a>反向代理，负载均衡</h3><h3 id="react性能优化"><a href="#react性能优化" class="headerlink" title="react性能优化"></a>react性能优化</h3><h4 id="使用shouldComponentUpdate和PureComponent"><a href="#使用shouldComponentUpdate和PureComponent" class="headerlink" title="使用shouldComponentUpdate和PureComponent"></a>使用shouldComponentUpdate和PureComponent</h4><p>PureComponent自动实现了shouldComponentMount， 如果props、state未改变，则不会重新render，此比较为浅比较，不包含对象属性</p>
-<h4 id="多个相同组件，设置Key值"><a href="#多个相同组件，设置Key值" class="headerlink" title="多个相同组件，设置Key值"></a>多个相同组件，设置Key值</h4><p>如果多个相同组件处于同一层级，要设置key值，这样可以减少组件更新，确切地更新到需要更新的组件<br>注意：key值要稳定不变的唯一值，所以尽量不要使用数组下标做key值</p>
-<h4 id="在componentWillUnmount做必要的销毁"><a href="#在componentWillUnmount做必要的销毁" class="headerlink" title="在componentWillUnmount做必要的销毁"></a>在componentWillUnmount做必要的销毁</h4>]]></content>
+<h3 id="CDN-加速"><a href="#CDN-加速" class="headerlink" title="CDN 加速"></a>CDN 加速</h3><h3 id="反向代理，负载均衡"><a href="#反向代理，负载均衡" class="headerlink" title="反向代理，负载均衡"></a>反向代理，负载均衡</h3><h3 id="react-性能优化"><a href="#react-性能优化" class="headerlink" title="react 性能优化"></a>react 性能优化</h3><h4 id="组件化，模块化"><a href="#组件化，模块化" class="headerlink" title="组件化，模块化"></a>组件化，模块化</h4><p>UI 组件不涉及业务，上层组件统一处理业务逻辑</p>
+<h4 id="使用-shouldComponentUpdate-和-PureComponent"><a href="#使用-shouldComponentUpdate-和-PureComponent" class="headerlink" title="使用 shouldComponentUpdate 和 PureComponent"></a>使用 shouldComponentUpdate 和 PureComponent</h4><p>PureComponent 自动实现了 shouldComponentMount， 如果 props、state 未改变，则不会重新 render，此比较为浅比较，不包含对象属性</p>
+<h4 id="多个相同组件，设置-Key-值"><a href="#多个相同组件，设置-Key-值" class="headerlink" title="多个相同组件，设置 Key 值"></a>多个相同组件，设置 Key 值</h4><p>如果多个相同组件处于同一层级，要设置 key 值，这样可以减少组件更新，确切地更新到需要更新的组件<br>注意：key 值要稳定不变的唯一值，所以尽量不要使用数组下标做 key 值</p>
+<h4 id="在-componentWillUnmount-做必要的销毁"><a href="#在-componentWillUnmount-做必要的销毁" class="headerlink" title="在 componentWillUnmount 做必要的销毁"></a>在 componentWillUnmount 做必要的销毁</h4>]]></content>
     
     <summary type="html">
     
-      &lt;h3 id=&quot;减少DNS解析，减少不同域名请求数量&quot;&gt;&lt;a href=&quot;#减少DNS解析，减少不同域名请求数量&quot; class=&quot;headerlink&quot; title=&quot;减少DNS解析，减少不同域名请求数量&quot;&gt;&lt;/a&gt;减少DNS解析，减少不同域名请求数量&lt;/h3&gt;&lt;h3 id=&quot;减
+      &lt;h3 id=&quot;减少-DNS-解析，减少不同域名请求数量&quot;&gt;&lt;a href=&quot;#减少-DNS-解析，减少不同域名请求数量&quot; class=&quot;headerlink&quot; title=&quot;减少 DNS 解析，减少不同域名请求数量&quot;&gt;&lt;/a&gt;减少 DNS 解析，减少不同域名请求数量&lt;/h3&gt;&lt;
     
     </summary>
     
