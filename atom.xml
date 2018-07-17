@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://myt0.com/"/>
-  <updated>2018-07-17T14:28:37.527Z</updated>
+  <updated>2018-07-17T15:04:27.341Z</updated>
   <id>http://myt0.com/</id>
   
   <author>
@@ -17,10 +17,10 @@
   
   <entry>
     <title>redux和react-redux原理分析</title>
-    <link href="http://myt0.com/2018/07/01/analysis-of-react-redux/"/>
-    <id>http://myt0.com/2018/07/01/analysis-of-react-redux/</id>
-    <published>2018-07-01T15:00:00.000Z</published>
-    <updated>2018-07-17T14:28:37.527Z</updated>
+    <link href="http://myt0.com/2018/07/17/analysis-of-react-redux/"/>
+    <id>http://myt0.com/2018/07/17/analysis-of-react-redux/</id>
+    <published>2018-07-17T15:00:00.000Z</published>
+    <updated>2018-07-17T15:04:27.341Z</updated>
     
     <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>redux 和 react-redux 是两个不同的库，redux 的出现是为了解决大型应用中组件状态管理混乱的问题，react-redux 则是便于 redux 结合 react.js 来使用。<br>在阅读本文之前，您需要了解 redux 及 react 的基本用法。<br>本文省略了源码中的一些对理解影响不大的代码，只对核心源码做分析。</p>
 <h2 id="redux"><a href="#redux" class="headerlink" title="redux"></a>redux</h2><p>redux 是真正的状态管理者，其通过闭包使状态数据永久地保存在内存当中，通过闭包来改变和获取状态数据。<br>redux 一共导出了五个方法</p>
