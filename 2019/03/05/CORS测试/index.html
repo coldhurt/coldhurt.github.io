@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="security,xss,frontend," />
+  <meta name="keywords" content="security,web,cors," />
 
 
 
@@ -95,19 +95,22 @@
 
 
 
-<meta name="description" content="简介内容安全策略(Content Security Policy)可以控制浏览器信任以何种方式、何种来源去加载资源，用于削弱 XSS 的危害，也可以防止使用 HTTP 时被注入恶意代码，通过服务器返回 Content-Security-Policy 来告诉浏览器具体的策略，因此需要浏览器支持。另外 meta 元素也可以设置:
-1234&amp;lt;meta    http-equiv=&quot;Content-">
+<meta name="description" content="什么是CORSCORS指Cross-Origin Resource Sharing，浏览器用来判断是否可以访问其他网站的资源和服务，比如AJAX跨域。
+比如说A站点的页面需要通过AJAX请求B站点的服务，浏览器发送AJAX请求时会增加Origin头：1Origin: http://foo.bar
+之后B站点收到请求，分析Origin，如果允许就返回相应的Access-Control-Allow-O">
 <meta property="og:type" content="article">
-<meta property="og:title" content="内容安全策略">
-<meta property="og:url" content="http://myt0.com/2018/08/09/CSP/index.html">
+<meta property="og:title" content="CORS测试">
+<meta property="og:url" content="http://myt0.com/2019/03/05/CORS测试/index.html">
 <meta property="og:site_name" content="Myths">
-<meta property="og:description" content="简介内容安全策略(Content Security Policy)可以控制浏览器信任以何种方式、何种来源去加载资源，用于削弱 XSS 的危害，也可以防止使用 HTTP 时被注入恶意代码，通过服务器返回 Content-Security-Policy 来告诉浏览器具体的策略，因此需要浏览器支持。另外 meta 元素也可以设置:
-1234&amp;lt;meta    http-equiv=&quot;Content-">
-<meta property="og:updated_time" content="2019-03-01T08:35:25.175Z">
+<meta property="og:description" content="什么是CORSCORS指Cross-Origin Resource Sharing，浏览器用来判断是否可以访问其他网站的资源和服务，比如AJAX跨域。
+比如说A站点的页面需要通过AJAX请求B站点的服务，浏览器发送AJAX请求时会增加Origin头：1Origin: http://foo.bar
+之后B站点收到请求，分析Origin，如果允许就返回相应的Access-Control-Allow-O">
+<meta property="og:updated_time" content="2019-03-06T03:01:38.156Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="内容安全策略">
-<meta name="twitter:description" content="简介内容安全策略(Content Security Policy)可以控制浏览器信任以何种方式、何种来源去加载资源，用于削弱 XSS 的危害，也可以防止使用 HTTP 时被注入恶意代码，通过服务器返回 Content-Security-Policy 来告诉浏览器具体的策略，因此需要浏览器支持。另外 meta 元素也可以设置:
-1234&amp;lt;meta    http-equiv=&quot;Content-">
+<meta name="twitter:title" content="CORS测试">
+<meta name="twitter:description" content="什么是CORSCORS指Cross-Origin Resource Sharing，浏览器用来判断是否可以访问其他网站的资源和服务，比如AJAX跨域。
+比如说A站点的页面需要通过AJAX请求B站点的服务，浏览器发送AJAX请求时会增加Origin头：1Origin: http://foo.bar
+之后B站点收到请求，分析Origin，如果允许就返回相应的Access-Control-Allow-O">
 
 
 
@@ -131,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://myt0.com/2018/08/09/CSP/"/>
+  <link rel="canonical" href="http://myt0.com/2019/03/05/CORS测试/"/>
 
 
 
 
 
-  <title>内容安全策略 | Myths</title>
+  <title>CORS测试 | Myths</title>
   
 
 
@@ -266,7 +269,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://myt0.com/2018/08/09/CSP/">
+    <link itemprop="mainEntityOfPage" href="http://myt0.com/2019/03/05/CORS测试/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Myths">
@@ -283,7 +286,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">内容安全策略</h1>
+          <h1 class="post-title" itemprop="name headline">CORS测试</h1>
         
 
         <div class="post-meta">
@@ -295,8 +298,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-09T07:47:00+08:00">
-                2018-08-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-05T18:19:46+08:00">
+                2019-03-05
               </time>
             
 
@@ -330,18 +333,16 @@
       
 
       
-        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>内容安全策略(Content Security Policy)可以控制浏览器信任以何种方式、何种来源去加载资源，用于削弱 XSS 的危害，也可以防止使用 HTTP 时被注入恶意代码，通过服务器返回 Content-Security-Policy 来告诉浏览器具体的策略，因此需要浏览器支持。<br>另外 meta 元素也可以设置:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span></span><br><span class="line">    <span class="attr">http-equiv</span>=<span class="string">"Content-Security-Policy"</span></span><br><span class="line">    <span class="attr">content</span>=<span class="string">"default-src 'self'; img-src https://*; child-src 'none';"</span></span><br><span class="line">/&gt;</span></span><br></pre></td></tr></table></figure>
-<p>这里可以看到，CSP 是通过规定可信域，来限制脚本或者其他静态资源的执行。</p>
-<h3 id="常见字段"><a href="#常见字段" class="headerlink" title="常见字段"></a>常见字段</h3><p>字段之间通过分号相隔，字段值可以使用通配符，多个值以空格相隔。<br>self 代表本站</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 允许所有内容来源于本站及myt0.com子域名</span></span><br><span class="line">default-src <span class="string">'self'</span> *.myt0.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 所有内容来源于myt0.com，并且要通过https协议，防止监听</span></span><br><span class="line">default-src https://myt0.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 图片来源于所有</span></span><br><span class="line">img-src *</span><br><span class="line"></span><br><span class="line"><span class="comment"># 样式来源设置</span></span><br><span class="line">style-src myt0.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 限制音频地址</span></span><br><span class="line">media-src myt0.com youtube.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 限制JS脚本地址，禁止行内脚本，禁止eval函数</span></span><br><span class="line">script-src myt0.com <span class="string">'unsafe-inline'</span> <span class="string">'unsafe-eval'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 限制&lt;object&gt;, &lt;embed&gt;, &lt;applet&gt;标签的来源</span></span><br><span class="line">object-src https://myt0.com</span><br></pre></td></tr></table></figure>
-<p>其他字段的解释及浏览器兼容具体参见<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP" target="_blank" rel="external">MDN 内容安全策略( CSP )</a></p>
-<h3 id="报告模式"><a href="#报告模式" class="headerlink" title="报告模式"></a>报告模式</h3><p>Content-Security-Policy-Report-Only 会启用报告模式，不强制采用指定的策略，但是违规的行为会报告给一个指定的 URI，也可以用这个头来进行测试。<br>Content-Security-Policy-Report-Only 和 Content-Security-Policy 同时存在时，两者均有效，前者仅报告，后者强制执行策略。<br>Content-Security-Policy 增加 report-uri 启用违规报告：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Content-Security-Policy: <span class="keyword">default</span>-src <span class="string">'self'</span>; report-uri http:<span class="comment">//reportcollector.example.com/collector.cgi</span></span><br></pre></td></tr></table></figure>
-<p>当违规行为发生时，会将违规结果以 POST 方式发送到指定 URI，格式为 JSON，语法如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    "csp-report": &#123;</span><br><span class="line">        //发生违规的文档的URI</span><br><span class="line">        "document-uri": "http://example.com/signup.html",</span><br><span class="line">        //违规发生处的文档引用（地址）</span><br><span class="line">        "referrer": "",</span><br><span class="line">        //被CSP阻止的资源URI。如果被阻止的URI来自不同的源而非文档URI，那么被阻止的资源URI会被删减，仅保留协议，主机和端口号。</span><br><span class="line">        "blocked-uri": "http://example.com/css/style.css",</span><br><span class="line">        //违反的策略名称。</span><br><span class="line">        "violated-directive": "style-src cdn.example.com",</span><br><span class="line">        //在 Content-Security-Policy HTTP 头部中指明的原始策略</span><br><span class="line">        "original-policy": "default-src 'none'; style-src cdn.example.com; report-uri /_/csp-reports"</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="nginx-配置"><a href="#nginx-配置" class="headerlink" title="nginx 配置"></a>nginx 配置</h3><p>在 conf 中加入：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add_header Content-Security-Policy <span class="string">"script-src 'self' 'unsafe-inline' 'unsafe-eval' *.youtube.com maps.gstatic.com *.googleapis.com *.google-analytics.com cdnjs.cloudflare.com assets.zendesk.com connect.facebook.net; frame-src 'self' *.youtube.com assets.zendesk.com *.facebook.com s-static.ak.facebook.com tautt.zendesk.com; object-src 'self'"</span>;</span><br></pre></td></tr></table></figure>
+        <h3 id="什么是CORS"><a href="#什么是CORS" class="headerlink" title="什么是CORS"></a>什么是CORS</h3><p>CORS指Cross-Origin Resource Sharing，浏览器用来判断是否可以访问其他网站的资源和服务，比如AJAX跨域。</p>
+<p>比如说A站点的页面需要通过AJAX请求B站点的服务，浏览器发送AJAX请求时会增加Origin头：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Origin: http://foo.bar</span><br></pre></td></tr></table></figure></p>
+<p>之后B站点收到请求，分析Origin，如果允许就返回相应的Access-Control-Allow-Origin字段：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin: http://foo.bar</span><br></pre></td></tr></table></figure></p>
+<p>Access-Control-Allow-Origin用来指定允许哪些域名CORS，浏览器根据这个值来决定请求要不要正常给A站点。这一字段有可能配置不当引起任意跨域。</p>
+<h3 id="如何测试"><a href="#如何测试" class="headerlink" title="如何测试"></a>如何测试</h3><p>给目标站点发送一个包含Origin的request：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET http://target.domain/file.php HTTP/1.1</span><br><span class="line">Host: target.domain</span><br><span class="line">User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;)</span><br><span class="line">Gecko/20100101 Firefox/24.0</span><br><span class="line">Accept: text/html</span><br><span class="line">Accept-Language: en-US</span><br><span class="line">Referer: http://foo.bar/</span><br><span class="line">Origin: http://foo.bar/</span><br><span class="line">Connection: keep-alive</span><br></pre></td></tr></table></figure>
+<p>如果返回Response包含Access-Control-Allow-Origin: *，表示允许任何网站跨域请求：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Date: Fri, 23 NOV 2018 18:57:53 GMT</span><br><span class="line">Server: Apache/2.2.22 (Debian)</span><br><span class="line">X-Powered-By: PHP/5.4.4-14+deb7u3</span><br><span class="line">Access-Control-Allow-Origin: *</span><br><span class="line">Content-Length: 44</span><br><span class="line">Keep-Alive: timeout=18, max=89</span><br><span class="line">Connection: Keep-Alive</span><br><span class="line">Content-Type: application/xml</span><br><span class="line">[Response Body]</span><br></pre></td></tr></table></figure>
+<p>还有另一种情况，如果你发送一个随意的Origin值，对方会返回相同的Access-Control-Allow-Origin 值。<br>测试工具的话，随意找个发送header头的就能测试，比如burpsuite、curl。<br>另外我写了个脚本来判断 <a href="https://github.com/coldhurt/pycode/blob/master/cors_check.py" target="_blank" rel="external">https://github.com/coldhurt/pycode/blob/master/cors_check.py</a><br>因为Origin可以更改，所以不推荐根据Origin来生成Access-Control-Allow-Origin值，正确做法是用固定的值，只允许那些你允许的网站。</p>
+<p>参考：<a href="https://www.owasp.org/index.php/CORS_OriginHeaderScrutiny" target="_blank" rel="external">https://www.owasp.org/index.php/CORS_OriginHeaderScrutiny</a></p>
 
       
     </div>
@@ -370,7 +371,7 @@
     </li>
     <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://myt0.com/2018/08/09/CSP/" title="内容安全策略">http://myt0.com/2018/08/09/CSP/</a>
+      <a href="http://myt0.com/2019/03/05/CORS测试/" title="CORS测试">http://myt0.com/2019/03/05/CORS测试/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明： </strong>
@@ -388,9 +389,9 @@
           
             <a href="/tags/security/" rel="tag"># security</a>
           
-            <a href="/tags/xss/" rel="tag"># xss</a>
+            <a href="/tags/web/" rel="tag"># web</a>
           
-            <a href="/tags/frontend/" rel="tag"># frontend</a>
+            <a href="/tags/cors/" rel="tag"># cors</a>
           
         </div>
       
@@ -403,8 +404,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/01/summary-of-webpack/" rel="next" title="webpack4 笔记">
-                <i class="fa fa-chevron-left"></i> webpack4 笔记
+              <a href="/2019/03/03/php命令执行WAF-Filter绕过/" rel="next" title="PHP命令执行时的WAF&Filter绕过方法">
+                <i class="fa fa-chevron-left"></i> PHP命令执行时的WAF&Filter绕过方法
               </a>
             
           </div>
@@ -413,8 +414,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/03/01/中间人工具bettercap/" rel="prev" title="中间人工具bettercap">
-                中间人工具bettercap <i class="fa fa-chevron-right"></i>
+              <a href="/2019/03/07/Python简要教程/" rel="prev" title="Python简要教程">
+                Python简要教程 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -541,7 +542,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见字段"><span class="nav-number">2.</span> <span class="nav-text">常见字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#报告模式"><span class="nav-number">3.</span> <span class="nav-text">报告模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx-配置"><span class="nav-number">4.</span> <span class="nav-text">nginx 配置</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是CORS"><span class="nav-number">1.</span> <span class="nav-text">什么是CORS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何测试"><span class="nav-number">2.</span> <span class="nav-text">如何测试</span></a></li></ol></div>
             
 
           </div>
