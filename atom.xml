@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://myt0.com/"/>
-  <updated>2020-02-06T04:44:18.806Z</updated>
+  <updated>2020-02-06T04:51:04.465Z</updated>
   <id>http://myt0.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://myt0.com/2020/02/06/async-await-%E5%92%8C-generators-%E6%9C%89%E5%93%AA%E4%BA%9B%E4%B8%8D%E5%90%8C/"/>
     <id>http://myt0.com/2020/02/06/async-await-和-generators-有哪些不同/</id>
     <published>2020-02-06T02:56:18.000Z</published>
-    <updated>2020-02-06T04:44:18.806Z</updated>
+    <updated>2020-02-06T04:51:04.465Z</updated>
     
     <content type="html"><![CDATA[<p>async/await 是 es2017 的重要新特性。async/await 和 es2015 发布的 generators 有很多相似之处。在 <a href="https://stackoverflow.com/questions/36196608/difference-between-async-await-and-es6-yield-with-generators" target="_blank" rel="external">stackoverflow 有很多关于这两者不同之处的提问</a>，其中也有一些不错的回答。<br>如果你用过 <a href="https://www.npmjs.com/package/co" target="_blank" rel="external">co</a> 模块，基于 generator 的代码看起来会很像 async/await。</p>
 <p>以下是 async/await 处理 HTTP 请求三次。</p>
@@ -50,7 +50,6 @@
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>async/await 和 generators 乍一看很相似，但两者之间存在许多有意义的差异。</p>
 <p>async/await 不需要第三方库，看起来更简洁；generators 通常要配合第三方库使用，但是这些第三方库又提供了很多 async/await 不具备的强大的功能。换句话说，async/await 和 generators 之间的权衡就是简洁与灵活之间的权衡。</p>
 <p>作为高级开发人员，您可以在某些情况下从开发人员那里获得有意义的价值，但是大多数情况下，async/await 是更好的选择。</p>
-<p>想要流利的异步/等待？<br>我的新电子书 Mastering Async / Await 旨在使您对异步/等待的基础知识以及异步/等待如何在几小时内适应 JavaScript 生态系统有一个完整的了解。<br><a href="http://asyncawait.net/" target="_blank" rel="external">得到你的副本</a>！</p>
 <p><strong> 参考来源：<a href="https://thecodebarbarian.com/the-difference-between-async-await-and-generators" target="_blank" rel="external">thecodebarbarian</a>，转载请注明来自 myt0.com </strong></p>
 ]]></content>
     
@@ -700,9 +699,9 @@
     </summary>
     
     
-      <category term="frontend" scheme="http://myt0.com/tags/frontend/"/>
-    
       <category term="web" scheme="http://myt0.com/tags/web/"/>
+    
+      <category term="frontend" scheme="http://myt0.com/tags/frontend/"/>
     
       <category term="javascript" scheme="http://myt0.com/tags/javascript/"/>
     
