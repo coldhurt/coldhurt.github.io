@@ -101,7 +101,7 @@
 <meta property="og:url" content="http://myt0.com/2020/02/21/nmap/index.html">
 <meta property="og:site_name" content="Myths">
 <meta property="og:description" content="通用参数12345678910111213141516171819202122232425262728293031323334# 禁止DNS反向解析-n# 反向解析域名-R# 使用系统域名解析器--system-dns# ipv6-6# 路由跟踪--traceroute# 速度快慢 从0到5，侵入性增加，速度加快-T0-5# 展示扫描细节-v# 全面扫描，速度较慢，容易被发现-A# 指定目标文件-">
-<meta property="og:updated_time" content="2020-02-22T15:50:02.182Z">
+<meta property="og:updated_time" content="2020-02-22T16:10:20.470Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nmap">
 <meta name="twitter:description" content="通用参数12345678910111213141516171819202122232425262728293031323334# 禁止DNS反向解析-n# 反向解析域名-R# 使用系统域名解析器--system-dns# ipv6-6# 路由跟踪--traceroute# 速度快慢 从0到5，侵入性增加，速度加快-T0-5# 展示扫描细节-v# 全面扫描，速度较慢，容易被发现-A# 指定目标文件-">
@@ -377,29 +377,29 @@
 <h3 id="VNC"><a href="#VNC" class="headerlink" title="VNC"></a>VNC</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-p 5900 --script vnc-brute</span><br><span class="line">-p 5900 --script vnc-info</span><br></pre></td></tr></table></figure>
 <h3 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--script redis-* -p 6379 -Pn</span><br></pre></td></tr></table></figure>
 <h2 id="编写"><a href="#编写" class="headerlink" title="编写"></a>编写</h2><h3 id="元数据"><a href="#元数据" class="headerlink" title="元数据"></a>元数据</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">description = <span class="string">[[</span><br><span class="line">Attempts to find the owner of an open TCP port by querying an auth</span><br><span class="line">(identd - port 113) daemon which must also be open on the target system.</span><br><span class="line">]]</span></span><br><span class="line"></span><br><span class="line">author = <span class="string">"Diman Todorov"</span></span><br><span class="line"></span><br><span class="line">license = <span class="string">"Same as Nmap--See https://nmap.org/book/man-legal.html"</span></span><br><span class="line"></span><br><span class="line">categories = &#123;<span class="string">"default"</span>, <span class="string">"safe"</span>&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Rule"><a href="#Rule" class="headerlink" title="Rule"></a>Rule</h3><p><code>rule</code>可以在<code>action</code>执行之前进行判断，只有满足条件才会执行<code>action</code></p>
-<table>
+<h3 id="Rule"><a href="#Rule" class="headerlink" title="Rule"></a>Rule</h3><table>
 <thead>
 <tr>
-<th></th>
-<th></th>
+<th>规则</th>
+<th>描述</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>prerule()</code></td>
-<td></td>
+<td>在扫描所有主机之前，运行一次</td>
 </tr>
 <tr>
 <td><code>hostrule(host)</code></td>
-<td>只判断 host</td>
+<td>扫描每批主机后，将运行，只判断 host</td>
 </tr>
 <tr>
 <td><code>portrule(host, port)</code></td>
-<td>同事判断 host，port</td>
+<td>扫描每批主机后，将运行，同时判断 host，port</td>
 </tr>
 <tr>
 <td><code>postrule()</code></td>
+<td>在扫描所有主机之后，运行一次。</td>
 </tr>
 </tbody>
 </table>
