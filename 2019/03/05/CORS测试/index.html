@@ -95,22 +95,25 @@
 
 
 
-<meta name="description" content="什么是CORSCORS指Cross-Origin Resource Sharing，浏览器用来判断是否可以访问其他网站的资源和服务，比如AJAX跨域。
-比如说A站点的页面需要通过AJAX请求B站点的服务，浏览器发送AJAX请求时会增加Origin头：1Origin: http://foo.bar
-之后B站点收到请求，分析Origin，如果允许就返回相应的Access-Control-Allow-O">
+<meta name="description" content="什么是 CORSCORS 指 Cross-Origin Resource Sharing，浏览器用来判断是否可以访问其他网站的资源和服务，比如 AJAX 跨域。
+比如说 A 站点的页面需要通过 AJAX 请求 B 站点的服务，浏览器发送 AJAX 请求时会增加 Origin 头：
+1Origin: http://foo.bar
+之后 B 站点收到请求，分析 Origin，如果允许就返回相应的 Ac">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CORS测试">
 <meta property="og:url" content="http://myt0.com/2019/03/05/CORS测试/index.html">
 <meta property="og:site_name" content="Myths">
-<meta property="og:description" content="什么是CORSCORS指Cross-Origin Resource Sharing，浏览器用来判断是否可以访问其他网站的资源和服务，比如AJAX跨域。
-比如说A站点的页面需要通过AJAX请求B站点的服务，浏览器发送AJAX请求时会增加Origin头：1Origin: http://foo.bar
-之后B站点收到请求，分析Origin，如果允许就返回相应的Access-Control-Allow-O">
-<meta property="og:updated_time" content="2019-03-06T03:01:38.156Z">
+<meta property="og:description" content="什么是 CORSCORS 指 Cross-Origin Resource Sharing，浏览器用来判断是否可以访问其他网站的资源和服务，比如 AJAX 跨域。
+比如说 A 站点的页面需要通过 AJAX 请求 B 站点的服务，浏览器发送 AJAX 请求时会增加 Origin 头：
+1Origin: http://foo.bar
+之后 B 站点收到请求，分析 Origin，如果允许就返回相应的 Ac">
+<meta property="og:updated_time" content="2020-02-22T15:54:10.533Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CORS测试">
-<meta name="twitter:description" content="什么是CORSCORS指Cross-Origin Resource Sharing，浏览器用来判断是否可以访问其他网站的资源和服务，比如AJAX跨域。
-比如说A站点的页面需要通过AJAX请求B站点的服务，浏览器发送AJAX请求时会增加Origin头：1Origin: http://foo.bar
-之后B站点收到请求，分析Origin，如果允许就返回相应的Access-Control-Allow-O">
+<meta name="twitter:description" content="什么是 CORSCORS 指 Cross-Origin Resource Sharing，浏览器用来判断是否可以访问其他网站的资源和服务，比如 AJAX 跨域。
+比如说 A 站点的页面需要通过 AJAX 请求 B 站点的服务，浏览器发送 AJAX 请求时会增加 Origin 头：
+1Origin: http://foo.bar
+之后 B 站点收到请求，分析 Origin，如果允许就返回相应的 Ac">
 
 
 
@@ -211,12 +214,12 @@
         </li>
       
         
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            关于
+            分类
           </a>
         </li>
       
@@ -309,6 +312,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/pentest/" itemprop="url" rel="index">
+                    <span itemprop="name">pentest</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -338,15 +363,17 @@
       
 
       
-        <h3 id="什么是CORS"><a href="#什么是CORS" class="headerlink" title="什么是CORS"></a>什么是CORS</h3><p>CORS指Cross-Origin Resource Sharing，浏览器用来判断是否可以访问其他网站的资源和服务，比如AJAX跨域。</p>
-<p>比如说A站点的页面需要通过AJAX请求B站点的服务，浏览器发送AJAX请求时会增加Origin头：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Origin: http://foo.bar</span><br></pre></td></tr></table></figure></p>
-<p>之后B站点收到请求，分析Origin，如果允许就返回相应的Access-Control-Allow-Origin字段：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin: http://foo.bar</span><br></pre></td></tr></table></figure></p>
-<p>Access-Control-Allow-Origin用来指定允许哪些域名CORS，浏览器根据这个值来决定请求要不要正常给A站点。这一字段有可能配置不当引起任意跨域。</p>
-<h3 id="如何测试"><a href="#如何测试" class="headerlink" title="如何测试"></a>如何测试</h3><p>给目标站点发送一个包含Origin的request：</p>
+        <h3 id="什么是-CORS"><a href="#什么是-CORS" class="headerlink" title="什么是 CORS"></a>什么是 CORS</h3><p>CORS 指 Cross-Origin Resource Sharing，浏览器用来判断是否可以访问其他网站的资源和服务，比如 AJAX 跨域。</p>
+<p>比如说 A 站点的页面需要通过 AJAX 请求 B 站点的服务，浏览器发送 AJAX 请求时会增加 Origin 头：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Origin: http://foo.bar</span><br></pre></td></tr></table></figure>
+<p>之后 B 站点收到请求，分析 Origin，如果允许就返回相应的 Access-Control-Allow-Origin 字段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin: http://foo.bar</span><br></pre></td></tr></table></figure>
+<p>Access-Control-Allow-Origin 用来指定允许哪些域名 CORS，浏览器根据这个值来决定请求要不要正常给 A 站点。这一字段有可能配置不当引起任意跨域。</p>
+<h3 id="如何测试"><a href="#如何测试" class="headerlink" title="如何测试"></a>如何测试</h3><p>给目标站点发送一个包含 Origin 的 request：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET http://target.domain/file.php HTTP/1.1</span><br><span class="line">Host: target.domain</span><br><span class="line">User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;)</span><br><span class="line">Gecko/20100101 Firefox/24.0</span><br><span class="line">Accept: text/html</span><br><span class="line">Accept-Language: en-US</span><br><span class="line">Referer: http://foo.bar/</span><br><span class="line">Origin: http://foo.bar/</span><br><span class="line">Connection: keep-alive</span><br></pre></td></tr></table></figure>
-<p>如果返回Response包含Access-Control-Allow-Origin: *，表示允许任何网站跨域请求：</p>
+<p>如果返回 Response 包含 Access-Control-Allow-Origin: *，表示允许任何网站跨域请求：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Date: Fri, 23 NOV 2018 18:57:53 GMT</span><br><span class="line">Server: Apache/2.2.22 (Debian)</span><br><span class="line">X-Powered-By: PHP/5.4.4-14+deb7u3</span><br><span class="line">Access-Control-Allow-Origin: *</span><br><span class="line">Content-Length: 44</span><br><span class="line">Keep-Alive: timeout=18, max=89</span><br><span class="line">Connection: Keep-Alive</span><br><span class="line">Content-Type: application/xml</span><br><span class="line">[Response Body]</span><br></pre></td></tr></table></figure>
-<p>还有另一种情况，如果你发送一个随意的Origin值，对方会返回相同的Access-Control-Allow-Origin 值。<br>测试工具的话，随意找个发送header头的就能测试，比如burpsuite、curl。<br>另外我写了个脚本来判断 <a href="https://github.com/coldhurt/pycode/blob/master/cors_check.py" target="_blank" rel="external">https://github.com/coldhurt/pycode/blob/master/cors_check.py</a><br>因为Origin可以更改，所以不推荐根据Origin来生成Access-Control-Allow-Origin值，正确做法是用固定的值，只允许那些你允许的网站。</p>
+<p>还有另一种情况，如果你发送一个随意的 Origin 值，对方会返回相同的 Access-Control-Allow-Origin 值。<br>测试工具的话，随意找个发送 header 头的就能测试，比如 burpsuite、curl。<br>另外我写了个脚本来判断 <a href="https://github.com/coldhurt/pycode/blob/master/cors_check.py" target="_blank" rel="external">https://github.com/coldhurt/pycode/blob/master/cors_check.py</a><br>因为 Origin 可以更改，所以不推荐根据 Origin 来生成 Access-Control-Allow-Origin 值，正确做法是用固定的值，只允许那些你允许的网站。</p>
 <p>参考：<a href="https://www.owasp.org/index.php/CORS_OriginHeaderScrutiny" target="_blank" rel="external">https://www.owasp.org/index.php/CORS_OriginHeaderScrutiny</a></p>
 
       
@@ -492,12 +519,21 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
           
 
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
           
 
           
@@ -547,7 +583,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是CORS"><span class="nav-number">1.</span> <span class="nav-text">什么是CORS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何测试"><span class="nav-number">2.</span> <span class="nav-text">如何测试</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是-CORS"><span class="nav-number">1.</span> <span class="nav-text">什么是 CORS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何测试"><span class="nav-number">2.</span> <span class="nav-text">如何测试</span></a></li></ol></div>
             
 
           </div>

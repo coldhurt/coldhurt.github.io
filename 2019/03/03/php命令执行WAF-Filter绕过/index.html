@@ -103,7 +103,7 @@
 <meta property="og:site_name" content="Myths">
 <meta property="og:description" content="介绍命令执行是非常危险的一种漏洞，会造成严重的信息泄露，还可能导致 getshell，本文介绍如何去绕过一些简单的防命令执行，仅仅提供一种思路，实际情况各有不同。先来看一段存在命令执行漏洞的 php 代码：
 1234567&amp;lt;?php    if(preg_match(&apos;/system|exec|passthru/&apos;, $_GET[&apos;code&apos;]))&amp;#123;        echo &apos;in">
-<meta property="og:updated_time" content="2019-03-03T09:57:13.062Z">
+<meta property="og:updated_time" content="2020-02-22T15:52:03.657Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PHP命令执行时的WAF&Filter绕过方法">
 <meta name="twitter:description" content="介绍命令执行是非常危险的一种漏洞，会造成严重的信息泄露，还可能导致 getshell，本文介绍如何去绕过一些简单的防命令执行，仅仅提供一种思路，实际情况各有不同。先来看一段存在命令执行漏洞的 php 代码：
@@ -208,12 +208,12 @@
         </li>
       
         
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            关于
+            分类
           </a>
         </li>
       
@@ -306,6 +306,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/pentest/" itemprop="url" rel="index">
+                    <span itemprop="name">pentest</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -338,12 +360,13 @@
         <h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>命令执行是非常危险的一种漏洞，会造成严重的信息泄露，还可能导致 getshell，本文介绍如何去绕过一些简单的防命令执行，仅仅提供一种思路，实际情况各有不同。<br>先来看一段存在命令执行漏洞的 php 代码：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="keyword">if</span>(preg_match(<span class="string">'/system|exec|passthru/'</span>, $_GET[<span class="string">'code'</span>]))&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'invalid syntax'</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">eval</span>($_GET[<span class="string">'code'</span>]);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>第二行试图校验 system, exec, passthru 三个函数，但这明显是远远不够的，还有很多其他的函数可以执行命令，但这里让我们假设只有这三个，这个脚本运行于 CloudFlare WAF 之后，</p>
-<h3 id="尝试读取-etc-passwd"><a href="#尝试读取-etc-passwd" class="headerlink" title="尝试读取/etc/passwd"></a>尝试读取/etc/passwd</h3><p>我们尝试请求/cfwaf.php?code=system(“cat /etc/passwd”); 这时 WAF 拒绝了我们的请求，我们可以假设是因为 /etc/passwd 这一重要文件引起，所以我们尝试修改为”cat /etc$u/passwd”，这时候由于存在 system 关键词，会输出’invalid syntax’，接下来考虑怎么样可以避免直接使用 system。</p>
+<h3 id="尝试读取-etc-passwd"><a href="#尝试读取-etc-passwd" class="headerlink" title="尝试读取/etc/passwd"></a>尝试读取/etc/passwd</h3><p>我们尝试请求/cfwaf.php?code=system(“cat /etc/passwd”); 这时 WAF 拒绝了我们的请求，我们可以假设是因为 /etc/passwd 这一重要文件引起，所以我们尝试修改为”cat /etc\$u/passwd”，这时候由于存在 system 关键词，会输出’invalid syntax’，接下来考虑怎么样可以避免直接使用 system。</p>
 <h3 id="php-字符串编码"><a href="#php-字符串编码" class="headerlink" title="php 字符串编码"></a>php 字符串编码</h3><p>\[0-7]{1-3}代表八进制</p>
 <p>\x[0-9A-Fa-f]{1,2}代表 16 进制</p>
 <p>\u{[0-9A-Fa-f]{1,2}}代表 Unicode 编码，通常实现为 UTF-8</p>
 <p>并不是所有人都知道这么多表示字符串的语法，再加上 php 变量函数，这将会成为我们绕过 WAF 或者 filter 的瑞士军刀。</p>
-<h3 id="php-变量函数"><a href="#php-变量函数" class="headerlink" title="php 变量函数"></a>php 变量函数</h3><p>php 支持通过变量调用函数，比如<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$var(args); </span><br><span class="line"><span class="string">"string"</span>(args);</span><br></pre></td></tr></table></figure></p>
+<h3 id="php-变量函数"><a href="#php-变量函数" class="headerlink" title="php 变量函数"></a>php 变量函数</h3><p>php 支持通过变量调用函数，比如</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$var(args);</span><br><span class="line"><span class="string">"string"</span>(args);</span><br></pre></td></tr></table></figure>
 <p>都可以当做函数调用。这也就意味着我们可以进行如下转化：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">system(<span class="string">"ls"</span>)</span><br><span class="line"></span><br><span class="line"><span class="string">"system"</span>(<span class="string">"ls"</span>)</span><br><span class="line"></span><br><span class="line"><span class="string">"\x73\x79\x73\x74\x65\x6d"</span>(<span class="string">"ls"</span>)</span><br></pre></td></tr></table></figure>
 <p>第三种直接将 system 转为 16 进制来执行，这样我们做到了不直接使用 system。</p>
@@ -353,7 +376,8 @@
 <p>可以看到我们加入了单引号和双引号的判断，这就意味着我们上面那些语句都会触发过滤。<br>幸运的是，在 PHP 里，我们表示一个字符串并不一定要用引号，比如<br><code>$a = (string)foo;</code><br>接着我们尝试如下转换：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span> <span class="string">"foo"</span>;</span><br><span class="line"><span class="keyword">echo</span> (string)<span class="string">"bar"</span>;</span><br><span class="line"><span class="keyword">echo</span> (string)hello;</span><br><span class="line"><span class="keyword">echo</span> (world);</span><br></pre></td></tr></table></figure>
 <p>执行过后你会发现连 string 都没必要使用，直接用括号就可以转换。也就是说我们执行<code>(system)(ls);</code>是被允许的，但是我们不能用 system，所以尝试字符串拼接<code>(sy.(st).em)(ls);</code>。或者我们加两个参数，绕过对于 code 参数的检测<br><code>?a=system&amp;b=ls&amp;code=$_GET[a]($_GET[b])</code><br>也就是说我们可以通过字符串拼接和变量调用两种方式来绕过。</p>
-<h3 id="get-defined-functions"><a href="#get-defined-functions" class="headerlink" title="get_defined_functions"></a>get_defined_functions</h3><p>get_defined_functions 返回一个数组，假设是$arr， 里面包含所有的内置和自定义函数。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$arr = get_defined_functions();</span><br><span class="line"><span class="comment"># 所有内置函数</span></span><br><span class="line">$arr[internal]</span><br><span class="line"><span class="comment"># 所有自定义函数</span></span><br><span class="line">$arr[user]</span><br></pre></td></tr></table></figure></p>
+<h3 id="get-defined-functions"><a href="#get-defined-functions" class="headerlink" title="get_defined_functions"></a>get_defined_functions</h3><p>get_defined_functions 返回一个数组，假设是\$arr， 里面包含所有的内置和自定义函数。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$arr = get_defined_functions();</span><br><span class="line"><span class="comment"># 所有内置函数</span></span><br><span class="line">$arr[internal]</span><br><span class="line"><span class="comment"># 所有自定义函数</span></span><br><span class="line">$arr[user]</span><br></pre></td></tr></table></figure>
 <p>比如我们尝试执行</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php -r &apos;print_r(get_defined_functions()[internal]);&apos; | grep &apos;system&apos;</span><br></pre></td></tr></table></figure>
 <p>即可知道 system 函数是第几个函数，我这里是第 503，所以绕过上面的过滤时就可以这样：</p>
@@ -506,12 +530,21 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
           
 
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
           
 
           
