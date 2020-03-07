@@ -105,9 +105,10 @@ DNS 各类型解析信息
 社工信息（人员，邮箱，电话，历史泄露密码）
 源码泄露.svn/.git 文件（github 及主要的公共仓库）
 C 段
+路径及服务
 网络空间资产
 
-常用命令123456789101112131415161718192021222324252627282930313233343536# 查询">
+子域名搜集第三方接口123456https://www.virustotal.com/https://www.threatcrow">
 <meta property="og:type" content="article">
 <meta property="og:title" content="信息搜集">
 <meta property="og:url" content="http://myt0.com/2018/06/07/information-gathering/index.html">
@@ -122,10 +123,11 @@ DNS 各类型解析信息
 社工信息（人员，邮箱，电话，历史泄露密码）
 源码泄露.svn/.git 文件（github 及主要的公共仓库）
 C 段
+路径及服务
 网络空间资产
 
-常用命令123456789101112131415161718192021222324252627282930313233343536# 查询">
-<meta property="og:updated_time" content="2020-02-22T15:51:28.417Z">
+子域名搜集第三方接口123456https://www.virustotal.com/https://www.threatcrow">
+<meta property="og:updated_time" content="2020-03-07T12:03:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="信息搜集">
 <meta name="twitter:description" content="信息搜集通常要搜集以下几类信息：
@@ -138,9 +140,10 @@ DNS 各类型解析信息
 社工信息（人员，邮箱，电话，历史泄露密码）
 源码泄露.svn/.git 文件（github 及主要的公共仓库）
 C 段
+路径及服务
 网络空间资产
 
-常用命令123456789101112131415161718192021222324252627282930313233343536# 查询">
+子域名搜集第三方接口123456https://www.virustotal.com/https://www.threatcrow">
 
 
 
@@ -334,7 +337,19 @@ C 段
             
 
             
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-03-07T20:03:00+08:00">
+                2020-03-07
+              </time>
             
           </span>
 
@@ -400,14 +415,25 @@ C 段
 <li>社工信息（人员，邮箱，电话，历史泄露密码）</li>
 <li>源码泄露.svn/.git 文件（github 及主要的公共仓库）</li>
 <li>C 段</li>
+<li>路径及服务</li>
 <li>网络空间资产</li>
 </ul>
-<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查询指定解析类型</span></span><br><span class="line">dig domain ns</span><br><span class="line">nslookup -qt=ns domain</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询所有解析类型, +short显示精简结果</span></span><br><span class="line">dig domain any +short</span><br><span class="line"></span><br><span class="line"><span class="comment"># IP反查</span></span><br><span class="line">dig -x ip</span><br><span class="line"></span><br><span class="line"><span class="comment"># 域传送</span></span><br><span class="line">dig @dnsdomain axfr domain</span><br><span class="line"></span><br><span class="line"><span class="comment"># whois</span></span><br><span class="line">whois domain</span><br><span class="line">dmitry -w domain</span><br><span class="line"></span><br><span class="line"><span class="comment"># 子域名查询</span></span><br><span class="line"><span class="comment"># recon-ng</span></span><br><span class="line">use recon/domains-hosts/bing_domain_web</span><br><span class="line">use recon/domains-hosts/brute_hosts</span><br><span class="line"></span><br><span class="line"><span class="comment"># fierce会自动查询dns, zone transfer, subdomain(较慢)</span></span><br><span class="line">fierce -dns domain</span><br><span class="line"></span><br><span class="line"><span class="comment"># theharvester会通过搜索引擎搜集email, subdomain</span></span><br><span class="line">theharvester <span class="_">-d</span> domain <span class="_">-l</span> 50 -b baidu -h out.html</span><br><span class="line"></span><br><span class="line"><span class="comment"># 服务扫描</span></span><br><span class="line">nmap -A -T4 -F -Pn domain</span><br><span class="line"></span><br><span class="line"><span class="comment"># waf</span></span><br><span class="line">wafw00f domain</span><br><span class="line"></span><br><span class="line"><span class="comment"># http server指纹</span></span><br><span class="line">whatweb domain</span><br></pre></td></tr></table></figure>
-<p>maltego 也可以进行更多搜索，且其图形化界面更为直观</p>
-<h3 id="在线工具"><a href="#在线工具" class="headerlink" title="在线工具"></a>在线工具</h3><p><a href="https://network-tools.com/" target="_blank" rel="external">https://network-tools.com/</a></p>
-<p><a href="https://dns.aizhan.com/" target="_blank" rel="external">https://dns.aizhan.com/</a></p>
-<p><a href="http://i.links.cn/subdomain/" target="_blank" rel="external">http://i.links.cn/subdomain/</a></p>
-<p><a href="https://pentest-tools.com/information-gathering/find-subdomains-of-domain" target="_blank" rel="external">https://pentest-tools.com/information-gathering/find-subdomains-of-domain</a></p>
+<h1 id="子域名搜集"><a href="#子域名搜集" class="headerlink" title="子域名搜集"></a>子域名搜集</h1><h2 id="第三方接口"><a href="#第三方接口" class="headerlink" title="第三方接口"></a>第三方接口</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">https://www.virustotal.com/</span><br><span class="line">https://www.threatcrowd.org/</span><br><span class="line">https://dnsdb.io/zh-cn/</span><br><span class="line">https://phpinfo.me/domain/</span><br><span class="line"><span class="comment"># 显示server</span></span><br><span class="line">https://pentest-tools.com/information-gathering/find-subdomains-of-domain</span><br></pre></td></tr></table></figure>
+<h2 id="基于-SSL-证书查询"><a href="#基于-SSL-证书查询" class="headerlink" title="基于 SSL 证书查询"></a>基于 SSL 证书查询</h2><p><a href="https://censys.io" target="_blank" rel="external">https://censys.io</a><br><a href="https://crt.sh/" target="_blank" rel="external">https://crt.sh/</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 搜索crt.sh</span></span><br><span class="line">dnsrecon -k <span class="_">-d</span> domain</span><br></pre></td></tr></table></figure>
+<h2 id="通过备案搜索"><a href="#通过备案搜索" class="headerlink" title="通过备案搜索"></a>通过备案搜索</h2><p><a href="http://icp.chinaz.com/" target="_blank" rel="external">http://icp.chinaz.com/</a></p>
+<h2 id="同-IP-域名"><a href="#同-IP-域名" class="headerlink" title="同 IP 域名"></a>同 IP 域名</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">https://www.webscan.cc/</span><br><span class="line">https://www.yougetsignal.com/tools/web-sites-on-web-server/</span><br><span class="line">http://stool.chinaz.com/same</span><br><span class="line">https://dns.aizhan.com/</span><br><span class="line">https://phpinfo.me/bing.php</span><br></pre></td></tr></table></figure>
+<h2 id="常用工具"><a href="#常用工具" class="headerlink" title="常用工具"></a>常用工具</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># fierce会自动查询dns, zone transfer, subdomain(爆破，较慢)</span></span><br><span class="line">fierce -dns domain</span><br><span class="line"></span><br><span class="line"><span class="comment"># dnsenum 和fierce差不多，根据字典爆破子域名</span></span><br><span class="line">dnsenum domain</span><br><span class="line"></span><br><span class="line"><span class="comment"># theHarvester会通过搜索引擎搜集email, subdomain</span></span><br><span class="line"><span class="comment"># -b 除了可以指定搜索引擎还可以指定 github-code, twitter等</span></span><br><span class="line">theHarvester <span class="_">-d</span> [domain] <span class="_">-l</span> [<span class="built_in">limit</span>] -b baidu,bing <span class="_">-f</span> out.html</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过搜索引擎搜索</span></span><br><span class="line">dmitry -winsepo mydomain.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># dnsrecon</span></span><br><span class="line">dnsrecon -t bing <span class="_">-d</span> domain <span class="comment"># 搜索引擎bing，goo 搜索</span></span><br><span class="line">dnsrecon -t crt <span class="_">-d</span> domain <span class="comment"># crt.sh</span></span><br><span class="line">dnsrecon -t rvl <span class="_">-d</span> domain <span class="comment"># IP反查，CIDR</span></span><br><span class="line">dnsrecon -t brt -D 字典 <span class="_">-d</span> domain <span class="comment"># 爆破</span></span><br><span class="line">dnsrecon -t srv <span class="_">-d</span> domain <span class="comment"># srv</span></span><br><span class="line">dnsrecon -t snoop <span class="_">-d</span> domain <span class="comment"># dns cache</span></span><br><span class="line">dnsrecon -t std <span class="_">-d</span> domain <span class="comment"># SOA, NS, A, AAAA, MX and SRV.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># recon-ng</span></span><br><span class="line">use recon/domains-hosts/bing_domain_web</span><br><span class="line">use recon/domains-hosts/brute_hosts</span><br><span class="line"></span><br><span class="line"><span class="comment"># nmap</span></span><br><span class="line">nmap --script dns-brute domain</span><br><span class="line"></span><br><span class="line"><span class="comment"># dig 反查，没有其他工具时备用</span></span><br><span class="line">dig -x ip</span><br><span class="line">dig domain ns</span><br><span class="line">dig domain any +short</span><br><span class="line">dig @dnsdomain axfr domain</span><br><span class="line"></span><br><span class="line">nslookup -qt=ns domain</span><br></pre></td></tr></table></figure>
+<h1 id="IP-段搜集"><a href="#IP-段搜集" class="headerlink" title="IP 段搜集"></a>IP 段搜集</h1><p><a href="http://ipwhois.cnnic.net.cn/" target="_blank" rel="external">http://ipwhois.cnnic.net.cn/</a></p>
+<h1 id="DNS-解析记录"><a href="#DNS-解析记录" class="headerlink" title="DNS 解析记录"></a>DNS 解析记录</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">https://dnsdumpster.com/</span><br><span class="line">https://sitereport.netcraft.com/</span><br><span class="line">https://network-tools.com/</span><br><span class="line"><span class="comment"># 综合性工具</span></span><br><span class="line">https://viewdns.info/</span><br></pre></td></tr></table></figure>
+<h1 id="Server-指纹"><a href="#Server-指纹" class="headerlink" title="Server 指纹"></a>Server 指纹</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whatweb domain</span><br></pre></td></tr></table></figure>
+<h1 id="WAF"><a href="#WAF" class="headerlink" title="WAF"></a>WAF</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wafw00f domain</span><br></pre></td></tr></table></figure>
+<h1 id="路径及服务"><a href="#路径及服务" class="headerlink" title="路径及服务"></a>路径及服务</h1><h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dirb http://www.example.com/ /usr/share/wordlist</span><br></pre></td></tr></table></figure>
+<h2 id="GHDB"><a href="#GHDB" class="headerlink" title="GHDB"></a>GHDB</h2><p><a href="https://www.exploit-db.com/google-hacking-database" target="_blank" rel="external">https://www.exploit-db.com/google-hacking-database</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">parent directory site:www.example.com</span><br><span class="line"></span><br><span class="line">site:www.example.com asmx/xml</span><br></pre></td></tr></table></figure>
+<h1 id="综合性工具"><a href="#综合性工具" class="headerlink" title="综合性工具"></a>综合性工具</h1><p><a href="https://viewdns.info/" target="_blank" rel="external">https://viewdns.info/</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">maltego</span><br></pre></td></tr></table></figure>
+<h1 id="网络空间资产"><a href="#网络空间资产" class="headerlink" title="网络空间资产"></a>网络空间资产</h1><p><a href="https://www.shodan.io/" target="_blank" rel="external">https://www.shodan.io/</a></p>
 <p><a href="https://zoomeye.org" target="_blank" rel="external">https://zoomeye.org</a></p>
 <p><a href="https://fofa.so" target="_blank" rel="external">https://fofa.so</a></p>
 
@@ -618,7 +644,7 @@ C 段
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#常用命令"><span class="nav-number">1.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在线工具"><span class="nav-number">2.</span> <span class="nav-text">在线工具</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#子域名搜集"><span class="nav-number">1.</span> <span class="nav-text">子域名搜集</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第三方接口"><span class="nav-number">1.1.</span> <span class="nav-text">第三方接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于-SSL-证书查询"><span class="nav-number">1.2.</span> <span class="nav-text">基于 SSL 证书查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过备案搜索"><span class="nav-number">1.3.</span> <span class="nav-text">通过备案搜索</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同-IP-域名"><span class="nav-number">1.4.</span> <span class="nav-text">同 IP 域名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用工具"><span class="nav-number">1.5.</span> <span class="nav-text">常用工具</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IP-段搜集"><span class="nav-number">2.</span> <span class="nav-text">IP 段搜集</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DNS-解析记录"><span class="nav-number">3.</span> <span class="nav-text">DNS 解析记录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Server-指纹"><span class="nav-number">4.</span> <span class="nav-text">Server 指纹</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WAF"><span class="nav-number">5.</span> <span class="nav-text">WAF</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#路径及服务"><span class="nav-number">6.</span> <span class="nav-text">路径及服务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#工具"><span class="nav-number">6.1.</span> <span class="nav-text">工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GHDB"><span class="nav-number">6.2.</span> <span class="nav-text">GHDB</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#综合性工具"><span class="nav-number">7.</span> <span class="nav-text">综合性工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网络空间资产"><span class="nav-number">8.</span> <span class="nav-text">网络空间资产</span></a></li></ol></div>
             
 
           </div>
