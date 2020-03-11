@@ -105,7 +105,7 @@
 <meta property="og:description" content="简介本教程适合有一定编程语言基础的读者，通过快速了解 Python 与其他语言共有的特性与独有的特点来快速掌握 Python，同时作为一个备忘录，许久不用之后快速回忆。
 语句结构强制以固定缩进代替括号，这是 Python 的特色。缩进不需要固定为 4 空格，但需要保持一致。
 123456789101112# 注释以#开头，与shell相同# if 语句if 3 &amp;gt; 2:    # 输出">
-<meta property="og:updated_time" content="2020-02-25T03:45:59.897Z">
+<meta property="og:updated_time" content="2020-03-11T12:40:05.523Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python简要教程">
 <meta name="twitter:description" content="简介本教程适合有一定编程语言基础的读者，通过快速了解 Python 与其他语言共有的特性与独有的特点来快速掌握 Python，同时作为一个备忘录，许久不用之后快速回忆。
@@ -314,8 +314,8 @@
               
                 <span class="post-meta-item-text">更新于</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-02-25T11:45:59+08:00">
-                2020-02-25
+              <time title="更新于" itemprop="dateModified" datetime="2020-03-11T20:40:05+08:00">
+                2020-03-11
               </time>
             
           </span>
@@ -388,6 +388,11 @@
 <li>complex,也就是复数</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># int</span></span><br><span class="line">a = <span class="number">3</span></span><br><span class="line"><span class="comment"># float</span></span><br><span class="line">b = <span class="number">3.2</span></span><br><span class="line"><span class="comment"># complex</span></span><br><span class="line">c = <span class="number">1j</span></span><br><span class="line"><span class="comment"># 通过type()查看类型</span></span><br><span class="line">print(type(c))</span><br></pre></td></tr></table></figure>
+<ul>
+<li>进制转换：</li>
+</ul>
+<p>转换成 10 进制只需要用 int 方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 16 转 10</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>int(<span class="string">'0x22'</span>, <span class="number">16</span>)</span><br><span class="line"><span class="number">34</span></span><br><span class="line"><span class="comment"># 8 转 10</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>int(<span class="string">'0o22'</span>, <span class="number">8</span>)</span><br><span class="line"><span class="number">18</span></span><br><span class="line"><span class="comment"># 2 转 10</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>int(<span class="string">'1111'</span>, <span class="number">2</span>)</span><br><span class="line"><span class="number">15</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 10 转 2</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>bin(<span class="number">3</span>)</span><br><span class="line"><span class="string">'0b11'</span></span><br><span class="line"><span class="comment"># 10 转 16</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>hex(<span class="number">17</span>)</span><br><span class="line"><span class="string">'0x11'</span></span><br><span class="line"><span class="comment"># 10 转 8</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>oct(<span class="number">9</span>)</span><br><span class="line"><span class="string">'011'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 8 转 16</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>oct(<span class="number">0x37</span>)</span><br><span class="line"><span class="string">'0o67'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>hex(<span class="number">0o67</span>)</span><br><span class="line"><span class="string">'0x37'</span></span><br></pre></td></tr></table></figure>
 <h4 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h4><p>单引号和双引号都可以表示字符串，含义是一样的。</p>
 <p>字符串可以通过下标来当做字符数组使用，比如</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="string">"hello world"</span></span><br><span class="line">print(a[<span class="number">0</span>]) <span class="comment"># 输出h</span></span><br></pre></td></tr></table></figure>
@@ -465,6 +470,181 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    print(x)</span><br><span class="line"><span class="keyword">except</span> NameError:</span><br><span class="line">    print(<span class="string">'not defined'</span>)</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    print(<span class="string">'Something else went wrong'</span>)</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    print(<span class="string">'finally'</span>)</span><br></pre></td></tr></table></figure>
 <p>else 可以在未发生错误时执行：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    print(<span class="string">"Hello"</span>)</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    print(<span class="string">"Something went wrong"</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">"Nothing went wrong"</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="struct-模块"><a href="#struct-模块" class="headerlink" title="struct 模块"></a>struct 模块</h3><ul>
+<li><p>pack 方法 将 python 字符转换成用于网络传输的字节码</p>
+</li>
+<li><p>unpack 做逆转换，将字节码重新转成 python 字符串。</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">struct.pack(fmt, arg1, arg2, ...)</span><br></pre></td></tr></table></figure>
+<p>fmt 可以传入一个或多个格式字符，根据传入的 fmt 不同，会产生不同的结果，结果长度也不同。</p>
+<ul>
+<li>fmt 格式字符对应于 C 语言中的类型：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>C Type</th>
+<th>Python</th>
+<th>字节数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x</td>
+<td>pad byte</td>
+<td>no value</td>
+<td>1</td>
+</tr>
+<tr>
+<td>c</td>
+<td>char</td>
+<td>string of length 1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>b</td>
+<td>signed char</td>
+<td>integer</td>
+<td>1</td>
+</tr>
+<tr>
+<td>B</td>
+<td>unsigned char</td>
+<td>integer</td>
+<td>1</td>
+</tr>
+<tr>
+<td>?</td>
+<td>_Bool</td>
+<td>bool</td>
+<td>1</td>
+</tr>
+<tr>
+<td>h</td>
+<td>short</td>
+<td>integer</td>
+<td>2</td>
+</tr>
+<tr>
+<td>H</td>
+<td>unsigned short</td>
+<td>integer</td>
+<td>2</td>
+</tr>
+<tr>
+<td>i</td>
+<td>int</td>
+<td>integer</td>
+<td>4</td>
+</tr>
+<tr>
+<td>I</td>
+<td>unsigned int</td>
+<td>integer or long</td>
+<td>4</td>
+</tr>
+<tr>
+<td>l</td>
+<td>long</td>
+<td>integer</td>
+<td>4</td>
+</tr>
+<tr>
+<td>L</td>
+<td>unsigned long</td>
+<td>long</td>
+<td>4</td>
+</tr>
+<tr>
+<td>q</td>
+<td>long long</td>
+<td>long</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Q</td>
+<td>unsigned long long</td>
+<td>long</td>
+<td>8</td>
+</tr>
+<tr>
+<td>f</td>
+<td>float</td>
+<td>float</td>
+<td>4</td>
+</tr>
+<tr>
+<td>d</td>
+<td>double</td>
+<td>float</td>
+<td>8</td>
+</tr>
+<tr>
+<td>s</td>
+<td>char[]</td>
+<td>string</td>
+<td>1</td>
+</tr>
+<tr>
+<td>p</td>
+<td>char[]</td>
+<td>string</td>
+<td>1</td>
+</tr>
+<tr>
+<td>P</td>
+<td>void *</td>
+<td>long</td>
+</tr>
+</tbody>
+</table>
+<p>实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>struct.pack(<span class="string">'b'</span>, <span class="number">125</span>)</span><br><span class="line"><span class="string">'&#125;'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>struct.pack(<span class="string">'b'</span>, <span class="number">127</span>)</span><br><span class="line"><span class="string">'\x7f'</span></span><br><span class="line"><span class="comment"># 超出表示范围的时候会报错</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>struct.pack(<span class="string">'b'</span>, <span class="number">128</span>)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">struct.error: byte format requires <span class="number">-128</span> &lt;= number &lt;= <span class="number">127</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>struct.pack(<span class="string">'i'</span>, <span class="number">11</span>)</span><br><span class="line"><span class="string">'\x0b\x00\x00\x00'</span> <span class="comment"># 4字节</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 参数对不上会报错</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>struct.pack(<span class="string">'ii'</span>, <span class="number">11</span>)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">struct.error: pack expected <span class="number">2</span> items <span class="keyword">for</span> packing (got <span class="number">1</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>struct.pack(<span class="string">'ii'</span>, <span class="number">11</span>, <span class="number">22</span>)</span><br><span class="line"><span class="string">'\x0b\x00\x00\x00\x16\x00\x00\x00'</span> <span class="comment"># 由于一个 i 表示 4 个字节，所以最后转换为 8 个字节</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>struct.unpack(<span class="string">'ii'</span>, <span class="string">'\x0b\x00\x00\x00\x16\x00\x00\x00'</span>)</span><br><span class="line">(<span class="number">11</span>, <span class="number">22</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>struct.pack(<span class="string">'hh'</span>, <span class="number">11</span>, <span class="number">22</span>)</span><br><span class="line"><span class="string">'\x0b\x00\x16\x00'</span> <span class="comment"># 由于一个 h 表示 2 个字节，所以最后转换为4个字节</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>struct.pack(<span class="string">'2h'</span>, <span class="number">11</span>, <span class="number">22</span>)</span><br><span class="line"><span class="string">'\x0b\x00\x16\x00'</span> <span class="comment"># 多个连续的相同格式可以在前面加数字表示个数</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>struct.pack(<span class="string">'h s'</span>, <span class="number">1</span>, <span class="string">'2d'</span>)</span><br><span class="line"><span class="string">'\x01\x002'</span>       <span class="comment"># 丢掉一个d</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>struct.pack(<span class="string">'h 2s'</span>, <span class="number">1</span>, <span class="string">'2d'</span>)</span><br><span class="line"><span class="string">'\x01\x002d'</span>      <span class="comment"># 正好</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>struct.pack(<span class="string">'h 3s'</span>, <span class="number">1</span>, <span class="string">'2d'</span>)</span><br><span class="line"><span class="string">'\x01\x002d\x00'</span>  <span class="comment"># 多出一个字节\x00补齐</span></span><br></pre></td></tr></table></figure>
+<p>还有一类特殊字符，如果放在开头，可以改变排列方式。</p>
+<table>
+<thead>
+<tr>
+<th>Character</th>
+<th>Byte order</th>
+<th>Size and alignment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@</td>
+<td>native</td>
+<td>native 凑够 4 个字节</td>
+</tr>
+<tr>
+<td>=</td>
+<td>native</td>
+<td>standard 按原字节数</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>little-endian</td>
+<td>standard 按原字节数</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>big-endian</td>
+<td>standard 按原字节数</td>
+</tr>
+<tr>
+<td>!</td>
+<td>network (= big-endian)</td>
+<td>standard 按原字节数</td>
+</tr>
+</tbody>
+</table>
+<p>实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>struct.pack(<span class="string">'h'</span>, <span class="number">1</span>)</span><br><span class="line"><span class="string">'\x01\x00'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>struct.pack(<span class="string">'&gt;h'</span>, <span class="number">1</span>)</span><br><span class="line"><span class="string">'\x00\x01'</span> <span class="comment"># 高位占高位，低位占地位，常用于网络传输</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>struct.pack(<span class="string">'&lt;h'</span>, <span class="number">1</span>)</span><br><span class="line"><span class="string">'\x01\x00'</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>struct.pack(<span class="string">'!i'</span>, <span class="number">44</span>)</span><br><span class="line"><span class="string">'\x00\x00\x00,'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>struct.pack(<span class="string">'i'</span>, <span class="number">44</span>)</span><br><span class="line"><span class="string">',\x00\x00\x00'</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>calcsize 方法用于根据传入格式计算长度</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>struct.calcsize(<span class="string">'i'</span>)</span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>struct.calcsize(<span class="string">'i2s'</span>)</span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>struct.calcsize(<span class="string">'i2s4h'</span>)</span><br><span class="line"><span class="number">14</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -669,7 +849,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语句结构"><span class="nav-number">2.</span> <span class="nav-text">语句结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量"><span class="nav-number">3.</span> <span class="nav-text">变量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数字"><span class="nav-number">3.1.</span> <span class="nav-text">数字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串"><span class="nav-number">3.2.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类型转换"><span class="nav-number">3.3.</span> <span class="nav-text">类型转换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运算符"><span class="nav-number">4.</span> <span class="nav-text">运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算数运算符"><span class="nav-number">4.1.</span> <span class="nav-text">算数运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#位运算符"><span class="nav-number">4.2.</span> <span class="nav-text">位运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#赋值运算符"><span class="nav-number">4.3.</span> <span class="nav-text">赋值运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#比较运算符"><span class="nav-number">4.4.</span> <span class="nav-text">比较运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑运算符"><span class="nav-number">4.5.</span> <span class="nav-text">逻辑运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#同一性运算符"><span class="nav-number">4.6.</span> <span class="nav-text">同一性运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#成员判断运算符"><span class="nav-number">4.7.</span> <span class="nav-text">成员判断运算符</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合"><span class="nav-number">5.</span> <span class="nav-text">集合</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#List"><span class="nav-number">5.1.</span> <span class="nav-text">List</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Tuple"><span class="nav-number">5.2.</span> <span class="nav-text">Tuple</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Set"><span class="nav-number">5.3.</span> <span class="nav-text">Set</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Dictionary"><span class="nav-number">5.4.</span> <span class="nav-text">Dictionary</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#条件语句"><span class="nav-number">6.</span> <span class="nav-text">条件语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#循环语句"><span class="nav-number">7.</span> <span class="nav-text">循环语句</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#while"><span class="nav-number">7.1.</span> <span class="nav-text">while</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#for"><span class="nav-number">7.2.</span> <span class="nav-text">for</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">8.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lambda-表达式"><span class="nav-number">9.</span> <span class="nav-text">lambda 表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#面向对象"><span class="nav-number">10.</span> <span class="nav-text">面向对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#class"><span class="nav-number">10.1.</span> <span class="nav-text">class</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#继承"><span class="nav-number">10.2.</span> <span class="nav-text">继承</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Iterator"><span class="nav-number">11.</span> <span class="nav-text">Iterator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模块"><span class="nav-number">12.</span> <span class="nav-text">模块</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建模块"><span class="nav-number">12.1.</span> <span class="nav-text">创建模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#引入模块"><span class="nav-number">12.2.</span> <span class="nav-text">引入模块</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#引入时重命名"><span class="nav-number">12.2.1.</span> <span class="nav-text">引入时重命名</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#按需导入"><span class="nav-number">12.2.2.</span> <span class="nav-text">按需导入</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内置模块"><span class="nav-number">12.3.</span> <span class="nav-text">内置模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装第三方模块"><span class="nav-number">12.4.</span> <span class="nav-text">安装第三方模块</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误捕获"><span class="nav-number">13.</span> <span class="nav-text">错误捕获</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语句结构"><span class="nav-number">2.</span> <span class="nav-text">语句结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量"><span class="nav-number">3.</span> <span class="nav-text">变量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数字"><span class="nav-number">3.1.</span> <span class="nav-text">数字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串"><span class="nav-number">3.2.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类型转换"><span class="nav-number">3.3.</span> <span class="nav-text">类型转换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运算符"><span class="nav-number">4.</span> <span class="nav-text">运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算数运算符"><span class="nav-number">4.1.</span> <span class="nav-text">算数运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#位运算符"><span class="nav-number">4.2.</span> <span class="nav-text">位运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#赋值运算符"><span class="nav-number">4.3.</span> <span class="nav-text">赋值运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#比较运算符"><span class="nav-number">4.4.</span> <span class="nav-text">比较运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑运算符"><span class="nav-number">4.5.</span> <span class="nav-text">逻辑运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#同一性运算符"><span class="nav-number">4.6.</span> <span class="nav-text">同一性运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#成员判断运算符"><span class="nav-number">4.7.</span> <span class="nav-text">成员判断运算符</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合"><span class="nav-number">5.</span> <span class="nav-text">集合</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#List"><span class="nav-number">5.1.</span> <span class="nav-text">List</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Tuple"><span class="nav-number">5.2.</span> <span class="nav-text">Tuple</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Set"><span class="nav-number">5.3.</span> <span class="nav-text">Set</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Dictionary"><span class="nav-number">5.4.</span> <span class="nav-text">Dictionary</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#条件语句"><span class="nav-number">6.</span> <span class="nav-text">条件语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#循环语句"><span class="nav-number">7.</span> <span class="nav-text">循环语句</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#while"><span class="nav-number">7.1.</span> <span class="nav-text">while</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#for"><span class="nav-number">7.2.</span> <span class="nav-text">for</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">8.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lambda-表达式"><span class="nav-number">9.</span> <span class="nav-text">lambda 表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#面向对象"><span class="nav-number">10.</span> <span class="nav-text">面向对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#class"><span class="nav-number">10.1.</span> <span class="nav-text">class</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#继承"><span class="nav-number">10.2.</span> <span class="nav-text">继承</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Iterator"><span class="nav-number">11.</span> <span class="nav-text">Iterator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模块"><span class="nav-number">12.</span> <span class="nav-text">模块</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建模块"><span class="nav-number">12.1.</span> <span class="nav-text">创建模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#引入模块"><span class="nav-number">12.2.</span> <span class="nav-text">引入模块</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#引入时重命名"><span class="nav-number">12.2.1.</span> <span class="nav-text">引入时重命名</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#按需导入"><span class="nav-number">12.2.2.</span> <span class="nav-text">按需导入</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内置模块"><span class="nav-number">12.3.</span> <span class="nav-text">内置模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装第三方模块"><span class="nav-number">12.4.</span> <span class="nav-text">安装第三方模块</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误捕获"><span class="nav-number">13.</span> <span class="nav-text">错误捕获</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#struct-模块"><span class="nav-number">14.</span> <span class="nav-text">struct 模块</span></a></li></ol></div>
             
 
           </div>
