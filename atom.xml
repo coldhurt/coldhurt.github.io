@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://myt0.com/"/>
-  <updated>2020-03-24T10:09:40.608Z</updated>
+  <updated>2020-03-26T10:17:00.000Z</updated>
   <id>http://myt0.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://myt0.com/2020/03/24/react%20hooks/"/>
     <id>http://myt0.com/2020/03/24/react hooks/</id>
     <published>2020-03-24T09:54:34.000Z</published>
-    <updated>2020-03-24T10:09:40.608Z</updated>
+    <updated>2020-03-26T10:17:00.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="useState"><a href="#useState" class="headerlink" title="useState"></a><code>useState</code></h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// basic</span></span><br><span class="line"><span class="keyword">const</span> [name, setName] = useState(<span class="string">''</span>)</span><br><span class="line">setName(<span class="string">''</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// set state depends on prevState</span></span><br><span class="line"><span class="keyword">const</span> [count, setCount] = useState(<span class="number">0</span>)</span><br><span class="line">setCount(prevCount =&gt; prevCount + <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// state is object</span></span><br><span class="line"><span class="keyword">const</span> [name, setName] = useState(&#123;</span><br><span class="line">    firstName: <span class="string">''</span>,</span><br><span class="line">    lastName: <span class="string">''</span></span><br><span class="line">&#125;)</span><br><span class="line">setName(&#123;</span><br><span class="line">    ...name, firstName: <span class="string">'sam'</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// state is array</span></span><br><span class="line"><span class="keyword">const</span> [items, setItems] = useState([])</span><br><span class="line">setItems(&#123;</span><br><span class="line">    ...items,</span><br><span class="line">    &#123;</span><br><span class="line">      id: items.length,</span><br><span class="line">      value: <span class="built_in">Math</span>.random()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <h1 id="useEffect"><a href="#useEffect" class="headerlink" title="useEffect"></a><code>useEffect</code></h1><p>Create <code>side effects</code> replacement for <code>componentDidMount, componentDidUpdate, componentWillUnMount</code></p>
@@ -129,9 +129,14 @@
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useCounter</span>(<span class="params">initialCount = 0</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = useState(initialCount)</span><br><span class="line">  <span class="keyword">const</span> increment = () =&gt; &#123;</span><br><span class="line">    setCount(prevCount =&gt; prevCount + <span class="number">1</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> decrement = () =&gt; &#123;</span><br><span class="line">    setCount(prevCount =&gt; prevCount - <span class="number">1</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> reset = () =&gt; &#123;</span><br><span class="line">    setCount(initialCount)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> [count, increment, decrement, reset]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>share input change logic</p>
 <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// useInput.js</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useInput</span>(<span class="params">initialValue</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [value, setValue] = useState(initialValue)</span><br><span class="line">  <span class="keyword">const</span> reset = () =&gt; &#123;</span><br><span class="line">    setValue(initialValue)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> bind = &#123;</span><br><span class="line">    value: value,</span><br><span class="line">    onChange: e =&gt; &#123;</span><br><span class="line">      setValue(e.target.value)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> [value, bind, reset]</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> useInput</span><br><span class="line"></span><br><span class="line"><span class="comment">// App.js</span></span><br><span class="line"><span class="keyword">import</span> useInput <span class="keyword">from</span> <span class="string">'./hooks/useInput'</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [firstName, bindFirstName, resetFirstName] = useInput(<span class="string">''</span>)</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;form&gt;</span><br><span class="line">      &lt;input &#123;...bindFirstName&#125; /&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="react-redux-hooks"><a href="#react-redux-hooks" class="headerlink" title="react-redux hooks"></a><code>react-redux hooks</code></h1><p>You can use react-redux hooks to replace <code>connect</code> function in FC.</p>
+<h2 id="useSelector"><a href="#useSelector" class="headerlink" title="useSelector"></a><code>useSelector</code></h2><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Loading</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> loading = useSelector((state: AppState) =&gt; state.users.loading)</span><br><span class="line">  <span class="keyword">return</span> loading &amp;&amp; &lt;CircularProgress /&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="useDispatch"><a href="#useDispatch" class="headerlink" title="useDispatch"></a><code>useDispatch</code></h2><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Login</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">const</span> dispatch = useDispatch()</span><br><span class="line">  <span class="keyword">const</span> login = useCallback(data =&gt; dispatch(loginAction(data)), [dispatch])</span><br><span class="line">  <span class="keyword">return</span> &lt;div&gt;</span><br><span class="line">    &lt;button onClick=&#123;() =&gt; login(&#123;username, password&#125;)&#125;&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="useStore"><a href="#useStore" class="headerlink" title="useStore"></a><code>useStore</code></h2><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> CounterComponent = (&#123; value &#125;) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> store = useStore()</span><br><span class="line"></span><br><span class="line">  <span class="comment">// EXAMPLE ONLY! Do not do this in a real app.</span></span><br><span class="line">  <span class="comment">// The component will not automatically update if the store state changes</span></span><br><span class="line">  <span class="keyword">return</span> &lt;div&gt;&#123;store.getState()&#125;&lt;/div&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>Reference:</p>
 <p><a href="https://reactjs.org/docs/hooks-reference.html" target="_blank" rel="external">https://reactjs.org/docs/hooks-reference.html</a></p>
 <p><a href="https://www.youtube.com/playlist?list=PLC3y8-rFHvwisvxhZ135pogtX7_Oe3Q3A" target="_blank" rel="external">https://www.youtube.com/playlist?list=PLC3y8-rFHvwisvxhZ135pogtX7_Oe3Q3A</a></p>
+<p><a href="https://react-redux.js.org/next/api/hooks" target="_blank" rel="external">https://react-redux.js.org/next/api/hooks</a></p>
 ]]></content>
     
     <summary type="html">
@@ -466,11 +471,11 @@
       <category term="frontend" scheme="http://myt0.com/categories/frontend/"/>
     
     
-      <category term="javascript" scheme="http://myt0.com/tags/javascript/"/>
+      <category term="frontend" scheme="http://myt0.com/tags/frontend/"/>
     
       <category term="web" scheme="http://myt0.com/tags/web/"/>
     
-      <category term="frontend" scheme="http://myt0.com/tags/frontend/"/>
+      <category term="javascript" scheme="http://myt0.com/tags/javascript/"/>
     
       <category term="es6" scheme="http://myt0.com/tags/es6/"/>
     
@@ -1173,9 +1178,9 @@
       <category term="frontend" scheme="http://myt0.com/categories/frontend/"/>
     
     
-      <category term="javascript" scheme="http://myt0.com/tags/javascript/"/>
-    
       <category term="frontend" scheme="http://myt0.com/tags/frontend/"/>
+    
+      <category term="javascript" scheme="http://myt0.com/tags/javascript/"/>
     
       <category term="webpack" scheme="http://myt0.com/tags/webpack/"/>
     
@@ -1263,9 +1268,9 @@
     
       <category term="javascript" scheme="http://myt0.com/tags/javascript/"/>
     
-      <category term="react" scheme="http://myt0.com/tags/react/"/>
-    
       <category term="react-redux" scheme="http://myt0.com/tags/react-redux/"/>
+    
+      <category term="react" scheme="http://myt0.com/tags/react/"/>
     
       <category term="redux" scheme="http://myt0.com/tags/redux/"/>
     
@@ -1313,11 +1318,11 @@
       <category term="frontend" scheme="http://myt0.com/categories/frontend/"/>
     
     
-      <category term="javascript" scheme="http://myt0.com/tags/javascript/"/>
+      <category term="frontend" scheme="http://myt0.com/tags/frontend/"/>
     
       <category term="web" scheme="http://myt0.com/tags/web/"/>
     
-      <category term="frontend" scheme="http://myt0.com/tags/frontend/"/>
+      <category term="javascript" scheme="http://myt0.com/tags/javascript/"/>
     
       <category term="css" scheme="http://myt0.com/tags/css/"/>
     
